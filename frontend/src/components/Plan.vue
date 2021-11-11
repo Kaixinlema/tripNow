@@ -18,19 +18,43 @@
                     <h3>TripNow旅行计划定制</h3>
                     <el-divider></el-divider>
                     <el-form :model="planForm" status-icon ref="planForm" class="demo-planForm">
-                        <el-form-item label="标签" prop="liked">
-                            <el-select v-model="planForm.value1" multiple placeholder="请选择">
-                                <el-option label="区域一" value="shanghai"></el-option>
-                                <el-option label="区域二" value="beijing"></el-option>
-                                <el-option label="区域三" value="guangzhou"></el-option>
-                                <el-option label="区域四" value="changsha"></el-option>
-                                <el-option label="区域五" value="zhongshan"></el-option>
-                                <el-option label="区域六" value="zhuhai"></el-option>
+                        <el-form-item label="标签" prop="likedLabel">
+                            <el-select v-model="planForm.interest" multiple placeholder="请选择">
+                                <el-option label="城市观光" value="cityScene"></el-option>
+                                <el-option label="购物商圈" value="shopMall"></el-option>
+                                <el-option label="历史人文" value="hisCulture"></el-option>
+                                <el-option label="美食汇集" value="foodTaste"></el-option>
+                                <el-option label="休闲时光" value="relaxTime"></el-option>
+                                <el-option label="主题世界" value="AmusePark"></el-option>
+                                <el-option label="自然风光" value="naturalSight"></el-option>
                             </el-select>
                         </el-form-item>
-                        <el-form-item label="密码" prop="password">
-                            <el-input type="password" v-model="planForm.password" clearable placeholder="请输入密码"
-                                autocomplete="off"></el-input>
+                        <el-form-item label="时间">
+                            <el-date-picker v-model="planForm.duration" type="daterange" unlink-panels
+                                range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
+                            </el-date-picker>
+                        </el-form-item>
+                        <el-form-item label="预计日开销" prop="predictCost">
+                            <el-radio-group v-model="planForm.cost">
+                                <el-radio :label="1">300元</el-radio>
+                                <el-radio :label="2">600元</el-radio>
+                                <el-radio :label="3">900元</el-radio>
+                                <el-radio :label="4">其他</el-radio>
+                            </el-radio-group>
+                            <el-input v-model="planForm.otherCost" v-if="planForm.cost == 4"
+                                style="width:120px; margin-left: 10px;" placeholder="请输入内容">
+                            </el-input>
+                        </el-form-item>
+                        <el-form-item label="预计人数" prop="number">
+                            <el-radio-group v-model="planForm.number">
+                                <el-radio :label="1">一人游</el-radio>
+                                <el-radio :label="2">双人游</el-radio>
+                                <el-radio :label="3">三人行</el-radio>
+                                <el-radio :label="4">其他</el-radio>
+                            </el-radio-group>
+                            <el-input v-model="planForm.otherNumber" v-if="planForm.number == 4"
+                                style="width:120px; margin-left: 10px;" placeholder="请输入内容">
+                            </el-input>
                         </el-form-item>
                         <el-form-item>
                             <el-button type="primary" @click="submitForm('planForm')">提交</el-button>
@@ -65,8 +89,12 @@
         data() {
             return {
                 planForm: {
-                    password: '',
-                    value1: [],
+                    interest: [],
+                    duration: '',
+                    cost: 1,
+                    otherCost: '',
+                    number: 1,
+                    otherNumber: '',
                 },
             }
         },
