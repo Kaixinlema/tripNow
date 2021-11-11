@@ -4,30 +4,36 @@
             <el-header style="text-align: right; line-height: 60px;">
                 <el-row>
                     <el-col :span="12" style="text-align: left;">
-                        <el-button type="plain">图标</el-button>
                         <el-button type="plain" @click="toIndex">首页</el-button>
+                        </el-button>
                     </el-col>
                     <el-col :span="12" style="text-align: right;">
-                        <el-button type="primary">登录</el-button>
-                        <el-button type="plain" @click="toRegister">注册</el-button>
+                        <el-button type="plain">用户名</el-button>
+                        <el-button type="plain">退出登录</el-button>
                     </el-col>
                 </el-row>
             </el-header>
             <el-main>
                 <div class="formSet">
-                    <h3>登录TripNow</h3>
+                    <h3>TripNow旅行计划定制</h3>
                     <el-divider></el-divider>
-                    <el-form :model="loginForm" status-icon ref="loginForm" class="demo-loginForm">
-                        <el-form-item label="用户名" prop="username">
-                            <el-input type="input" v-model="loginForm.username" clearable placeholder="请输入用户名"
-                                autocomplete="off"></el-input>
+                    <el-form :model="planForm" status-icon ref="planForm" class="demo-planForm">
+                        <el-form-item label="标签" prop="liked">
+                            <el-select v-model="planForm.value1" multiple placeholder="请选择">
+                                <el-option label="区域一" value="shanghai"></el-option>
+                                <el-option label="区域二" value="beijing"></el-option>
+                                <el-option label="区域三" value="guangzhou"></el-option>
+                                <el-option label="区域四" value="changsha"></el-option>
+                                <el-option label="区域五" value="zhongshan"></el-option>
+                                <el-option label="区域六" value="zhuhai"></el-option>
+                            </el-select>
                         </el-form-item>
                         <el-form-item label="密码" prop="password">
-                            <el-input type="password" v-model="loginForm.password" clearable placeholder="请输入密码"
+                            <el-input type="password" v-model="planForm.password" clearable placeholder="请输入密码"
                                 autocomplete="off"></el-input>
                         </el-form-item>
                         <el-form-item>
-                            <el-button type="primary" @click="submitForm('loginForm')">提交</el-button>
+                            <el-button type="primary" @click="submitForm('planForm')">提交</el-button>
                         </el-form-item>
                     </el-form>
                 </div>
@@ -55,12 +61,12 @@
 
 <script>
     export default {
-        name: "Login",
+        name: "Plan",
         data() {
             return {
-                loginForm: {
-                    username: '',
+                planForm: {
                     password: '',
+                    value1: [],
                 },
             }
         },
@@ -102,7 +108,7 @@
     }
 
     .formSet {
-        width: 300px;
+        width: 600px;
         background-color: #ffffff;
         border-radius: 5px;
         margin: auto;
