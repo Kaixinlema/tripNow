@@ -4,11 +4,12 @@
             <el-header style=" line-height: 60px;">
                 <el-row>
                     <el-col :span="12" style="text-align: left;">
-                        <el-button type="plain">图标</el-button>
+                        <div class="headIcon" @click="$router.push('/')">
+                        </div>
                     </el-col>
                     <el-col :span="12" style="text-align: right;">
-                        <el-button type="plain" @click="toLogin">登录</el-button>
-                        <el-button type="plain" @click="toRegister">注册</el-button>
+                        <el-button type="danger" @click="toLogin">登录</el-button>
+                        <el-button type="danger" @click="toRegister">注册</el-button>
                     </el-col>
                 </el-row>
             </el-header>
@@ -34,7 +35,7 @@
                     </el-col>
                 </el-row>
                 <div style="padding: 50px;">
-                    <el-button type="primary" @click="toPlan">开始制定计划！</el-button>
+                    <el-button type="danger" @click="toPlan">开始制定计划！</el-button>
                 </div>
 
             </el-main>
@@ -93,7 +94,7 @@
     };
 </script>
 
-<style>
+<style scoped>
     .el-header,
     .el-footer {
         background-color: #ffffff;
@@ -122,5 +123,12 @@
 
     .el-carousel__item:nth-child(2n+1) {
         background-color: #d3dce6;
+    }
+
+    .headIcon {
+        width: 150px;
+        height: 60px;
+        background-image: url(../assets/ZHimg/icon-black.png);
+        background-size: cover;
     }
 </style>

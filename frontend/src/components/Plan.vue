@@ -4,12 +4,12 @@
             <el-header style="text-align: right; line-height: 60px;">
                 <el-row>
                     <el-col :span="12" style="text-align: left;">
-                        <el-button type="plain" @click="toIndex">首页</el-button>
-                        </el-button>
+                        <div class="headIcon" @click="$router.push('/')">
+                        </div>
                     </el-col>
                     <el-col :span="12" style="text-align: right;">
-                        <el-button type="plain">用户名</el-button>
-                        <el-button type="plain">退出登录</el-button>
+                        <el-button type="danger" plain>用户名</el-button>
+                        <el-button type="danger" plain>退出登录</el-button>
                     </el-col>
                 </el-row>
             </el-header>
@@ -113,7 +113,7 @@
     };
 </script>
 
-<style>
+<style scoped>
     .el-header,
     .el-footer {
         background-color: #ffffff;
@@ -135,5 +135,12 @@
         border-radius: 5px;
         margin: auto;
         padding: 20px;
+    }
+
+    .headIcon {
+        width: 150px;
+        height: 60px;
+        background-image: url(../assets/ZHimg/icon-black.png);
+        background-size: cover;
     }
 </style>
