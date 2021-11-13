@@ -1,32 +1,32 @@
-from flask import Flask, jsonify, request, render_template
-from flask_cors import CORS
+
+from trip import app
  
 DEBUG = True
  
-app = Flask(__name__)
-app.config.from_object(__name__)
+# app = Flask(__name__)
+# app.config.from_object(__name__)
  
-CORS(app, resources={r'/*': {'origins': '*'}})
- 
- 
-@app.route('/ping', methods=['GET'])
-def ping_pong():
-    return jsonify('pong!')
+# CORS(app, resources={r'/*': {'origins': '*'}})
  
  
-@app.route('/')
-def index():
-    return app.send_static_file('index.html')
+# @app.route('/ping', methods=['GET'])
+# def ping_pong():
+#     return jsonify('pong!')
  
  
-@app.route('/<path:fallback>')
-def fallback(fallback):       # Vue Router 的 mode 为 'hash' 时可移除该方法
-    if fallback.startswith('css/') or fallback.startswith('js/')\
-            or fallback.startswith('img/') or fallback == 'favicon.ico':
-        return app.send_static_file(fallback)
-    else:
-        return app.send_static_file('index.html')
+# @app.route('/')
+# def index():
+#     return app.send_static_file('index.html')
+ 
+ 
+# @app.route('/<path:fallback>')
+# def fallback(fallback):       # Vue Router 的 mode 为 'hash' 时可移除该方法
+#     if fallback.startswith('css/') or fallback.startswith('js/')\
+#             or fallback.startswith('img/') or fallback == 'favicon.ico':
+#         return app.send_static_file(fallback)
+#     else:
+#         return app.send_static_file('index.html')
  
  
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
