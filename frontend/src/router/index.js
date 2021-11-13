@@ -36,6 +36,17 @@ export default new Router({
       name: 'Ping',
       component: Ping,
     },
-
+    {
+      path: '/plan',
+      component: Plan,
+    },
+    {
+      path: '/choice',
+      component: Choice,
+    },
+    {
+      path: '/tabs',
+      component: Tabs,
+    },
   ]
 })

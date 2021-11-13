@@ -1,32 +1,36 @@
 <template>
     <div>
-
         <el-container>
             <el-header style="text-align: right; line-height: 60px;">
                 <el-row>
                     <el-col :span="12" style="text-align: left;">
-                        <el-button type="plain">Login</el-button>
-                        <el-button type="plain">Register</el-button>
+                        <el-button type="plain">图标</el-button>
+                        <el-button type="plain" @click="toIndex">首页</el-button>
                     </el-col>
                     <el-col :span="12" style="text-align: right;">
-                        <el-button type="plain">Login</el-button>
-                        <el-button type="plain" @click="toRegister">Register</el-button>
+                        <el-button type="primary">登录</el-button>
+                        <el-button type="plain" @click="toRegister">注册</el-button>
                     </el-col>
                 </el-row>
             </el-header>
             <el-main>
-                <el-form :model="ruleForm" status-icon ref="ruleForm" class="demo-ruleForm">
-                    <el-form-item label="用户名" prop="username">
-                        <el-input type="input" v-model="ruleForm.username" autocomplete="off"></el-input>
-                    </el-form-item>
-                    <el-form-item label="密码" prop="password">
-                        <el-input type="password" v-model="ruleForm.password" autocomplete="off"></el-input>
-                    </el-form-item>
-                    <el-form-item>
-                        <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
-                        <el-button @click="resetForm('ruleForm')">重置</el-button>
-                    </el-form-item>
-                </el-form>
+                <div class="formSet">
+                    <h3>登录TripNow</h3>
+                    <el-divider></el-divider>
+                    <el-form :model="loginForm" status-icon ref="loginForm" class="demo-loginForm">
+                        <el-form-item label="用户名" prop="username">
+                            <el-input type="input" v-model="loginForm.username" clearable placeholder="请输入用户名"
+                                autocomplete="off"></el-input>
+                        </el-form-item>
+                        <el-form-item label="密码" prop="password">
+                            <el-input type="password" v-model="loginForm.password" clearable placeholder="请输入密码"
+                                autocomplete="off"></el-input>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="primary" @click="submitForm('loginForm')">提交</el-button>
+                        </el-form-item>
+                    </el-form>
+                </div>
             </el-main>
             <el-footer style="text-align: center; height: 400ox;">
                 <el-row :gutter="20">
@@ -54,7 +58,7 @@
         name: "Login",
         data() {
             return {
-                ruleForm: {
+                loginForm: {
                     username: '',
                     password: '',
                 },
@@ -64,7 +68,9 @@
             toRegister() {
                 this.$router.push("register");
             },
-
+            toIndex() {
+                this.$router.push("/");
+            },
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
@@ -75,9 +81,6 @@
                     }
                 });
             },
-            resetForm(formName) {
-                this.$refs[formName].resetFields();
-            }
         }
     };
 </script>
@@ -96,5 +99,13 @@
         color: #333;
         text-align: center;
         line-height: 40px;
+    }
+
+    .formSet {
+        width: 300px;
+        background-color: #ffffff;
+        border-radius: 5px;
+        margin: auto;
+        padding: 20px;
     }
 </style>
