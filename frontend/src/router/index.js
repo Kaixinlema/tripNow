@@ -3,11 +3,12 @@ import Router from 'vue-router'
 import Container from '@/components/Container'
 import Login from '../components/Login'
 import Register from '../components/Register'
-import Ping from '../components/Ping.vue';
+import Ping from '../components/Ping.vue'
 
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history', 
   routes: [
     {
       path: '/',
@@ -31,14 +32,10 @@ export default new Router({
       }
     },
     {
-      path: '/ping', 
+      path: '/ping',   
       name: 'Ping',
       component: Ping,
     },
-    {
-      path: '/ping_xyz',
-      name: 'Ping',
-      component: Ping,
-    },
+
   ]
 })

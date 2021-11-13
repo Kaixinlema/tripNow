@@ -2,6 +2,7 @@ from enum import unique
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
 from flask import jsonify
+from flask_migrate import Migrate
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:Ldy26060@localhost:3306/tripnow'
@@ -10,11 +11,13 @@ app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:Ldy26060@localhost:3
     # 密码：2333
     # IP地址：localhost
     # 端口：3306
-    # 数据库名：runoob #这里的数据库需要提前建好
+    # 数据库名：tripnow #这里的数据库需要提前建好
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
+
 class User(db.Model):
+    __tablename__ = 'user_info'
     id = db.Column(db.Integer,primary_key=True)
     user_name = db.Column(db.String(20), nullable=False)
     phone = db.Column(db.String(20), nullable=False, unique=True)
@@ -29,4 +32,4 @@ class User(db.Model):
 
 
     def __repr__(self):
-        return '<Product %d>' % self.id
+        return '<User %d>' % self.id
