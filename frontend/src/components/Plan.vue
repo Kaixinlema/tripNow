@@ -25,14 +25,9 @@
                                 <el-option label="历史人文" value="hisCulture"></el-option>
                                 <el-option label="美食汇集" value="foodTaste"></el-option>
                                 <el-option label="休闲时光" value="relaxTime"></el-option>
-                                <el-option label="主题世界" value="AmusePark"></el-option>
+                                <el-option label="主题世界" value="amusePark"></el-option>
                                 <el-option label="自然风光" value="naturalSight"></el-option>
                             </el-select>
-                        </el-form-item>
-                        <el-form-item label="时间">
-                            <el-date-picker v-model="planForm.duration" type="daterange" unlink-panels
-                                range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
-                            </el-date-picker>
                         </el-form-item>
                         <el-form-item label="预计日开销" prop="predictCost">
                             <el-radio-group v-model="planForm.cost">
@@ -90,7 +85,6 @@
             return {
                 planForm: {
                     interest: [],
-                    duration: '',
                     cost: 1,
                     otherCost: '',
                     number: 1,

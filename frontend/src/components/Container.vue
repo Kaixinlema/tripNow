@@ -17,8 +17,8 @@
                     <el-col :span="12">
                         <div class="grid-content bg-purple">
                             <el-carousel height="400px">
-                                <el-carousel-item v-for="item in imgs" :key="item">
-                                    <el-image :src="item"></el-image>
+                                <el-carousel-item v-for="item in imgs" :key="item.name">
+                                    <el-image :src="item.img"></el-image>
                                 </el-carousel-item>
                             </el-carousel>
                         </div>
@@ -26,8 +26,8 @@
                     <el-col :span="12">
                         <div class="grid-content bg-purple-light">
                             <el-carousel height="400px">
-                                <el-carousel-item v-for="item in imgs" :key="item">
-                                    <el-image :src="item"></el-image>
+                                <el-carousel-item v-for="item in imgs" :key="item.name">
+                                    <el-image :src="item.img"></el-image>
                                 </el-carousel-item>
                             </el-carousel>
                         </div>
@@ -65,11 +65,17 @@
     import img3 from "../assets/ZHimg/fall.jpg";
     import img4 from "../assets/ZHimg/winter.jpg";
 
+
     export default {
         name: "Container",
         data() {
             return {
-                imgs: [img1, img2, img3, img4]
+                imgs: [
+                    { img: img1, name: 'spring' },
+                    { img: img2, name: 'summer' },
+                    { img: img3, name: 'fall' },
+                    { img: img4, name: 'winter' },
+                ]
             };
         },
         methods: {
