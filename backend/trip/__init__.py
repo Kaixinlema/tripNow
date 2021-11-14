@@ -1,10 +1,8 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import Column, String, create_engine
+from sqlalchemy import Column, String
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
 from flask_cors import CORS
-from flask_marshmallow import Marshmallow
 from flask_login import LoginManager, login_manager
 
 
