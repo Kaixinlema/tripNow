@@ -24,11 +24,11 @@
                                 class="demo-loginForm">
                                 <el-form-item label="手机号" prop="phone">
                                     <el-input type="input" v-model="loginForm.phone" clearable placeholder="请输入手机号"
-                                        autocomplete="off"></el-input>
+                                        autocomplete="off" suffix-icon="el-icon-phone-outline"></el-input>
                                 </el-form-item>
                                 <el-form-item label="密码" prop="password">
                                     <el-input type="password" v-model="loginForm.password" clearable placeholder="请输入密码"
-                                        autocomplete="off"></el-input>
+                                        autocomplete="off" suffix-icon="el-icon-lock"></el-input>
                                 </el-form-item>
                                 <el-form-item>
                                     <el-button type="danger" @click="submitForm('loginForm')">提交</el-button>
@@ -56,7 +56,6 @@ import axios from 'axios';
                     phone: '',
                     password: '',
                 },
-                returndata: '',
                 rules: {
                     phone: { required: true, message: '请输入手机号', trigger: 'blur' },
                     password: { required: true, message: '请输入密码', trigger: 'blur' },
@@ -80,11 +79,12 @@ import axios from 'axios';
                         }).then((res)=>{
                             console.log(res.data);
                             if (res.data.status == 'ok'){
-                                sessionStorage.setItem('accessToken',res.data.session)
+                                sessionStorage.setItem('accessToken',JSON.stringify(res.data.session))
+                                this.$message.success("登录成功");
                                 this.$router.push("/");
                             }
                             else{
-                                alert('登录失败！');
+                                this.$message.error(res.data.info);
                                 console.log('error submit!!');
                                 return false;
                             }
