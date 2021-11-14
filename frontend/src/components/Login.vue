@@ -7,10 +7,7 @@
                         <div class="headIcon" @click="$router.push('/')">
                         </div>
                     </el-col>
-                    <el-col :span="12" style="text-align: right;">
-                        <el-button type="danger">登录</el-button>
-                        <el-button type="danger" plain @click="toRegister">注册</el-button>
-                    </el-col>
+                    
                 </el-row>
             </el-header>
             <el-main>
@@ -26,8 +23,8 @@
                             <el-divider></el-divider>
                             <el-form :model="loginForm" status-icon :rules="rules" ref="loginForm"
                                 class="demo-loginForm">
-                                <el-form-item label="用户名" prop="username">
-                                    <el-input type="input" v-model="loginForm.username" clearable placeholder="请输入用户名"
+                                <el-form-item label="手机号" prop="phone">
+                                    <el-input type="input" v-model="loginForm.phone" clearable placeholder="请输入手机号"
                                         autocomplete="off"></el-input>
                                 </el-form-item>
                                 <el-form-item label="密码" prop="password">
@@ -36,6 +33,9 @@
                                 </el-form-item>
                                 <el-form-item>
                                     <el-button type="danger" @click="submitForm('loginForm')">提交</el-button>
+                                </el-form-item>
+                                 <el-form-item>
+                                    <el-link type="primary" @click="toRegister()">没有账号？去注册</el-link>
                                 </el-form-item>
                             </el-form>
                         </div>
@@ -51,6 +51,7 @@
                     </el-col>
                     <el-col :span="6">
                         <h3>关于我们</h3>
+
                     </el-col>
                     <el-col :span="6" :offset="6">
                         <h3>合作</h3>
@@ -64,16 +65,19 @@
 </template>
 
 <script>
+import axios from 'axios';
+
     export default {
         name: "Login",
         data() {
             return {
                 loginForm: {
-                    username: '',
+                    phone: '',
                     password: '',
                 },
+                returndata: '',
                 rules: {
-                    username: { required: true, message: '请输入用户名', trigger: 'blur' },
+                    phone: { required: true, message: '请输入手机号', trigger: 'blur' },
                     password: { required: true, message: '请输入密码', trigger: 'blur' },
                 }
             }
@@ -88,14 +92,36 @@
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        alert('submit!');
-                    } else {
+                        const path = 'http://127.0.0.1:5000/login';
+                        axios.post(path,{
+                            phone: this.loginForm.phone,
+                            password: this.loginForm.password
+                        }).then((res)=>{
+                            console.log(res.data);
+                            if (res.data.status == 'ok'){
+                                sessionStorage.setItem('accessToken',res.data.session)
+                                this.$router.push("/");
+                            }
+                            else{
+                                alert('登录失败！');
+                                console.log('error submit!!');
+                                return false;
+                            }
+                        }).catch(function (error) {
+                            console.error(error);
+                            return false;
+                        })   
+                    }
+                    else{
                         console.log('error submit!!');
                         return false;
                     }
                 });
             },
-        }
+        },
+        creater(){
+            this.submitForm(formName);
+        },
     };
 </script>
 

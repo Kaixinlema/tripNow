@@ -3,20 +3,15 @@ from flask_wtf import FlaskForm, Form
 from wtforms import StringField, PasswordField, SubmitField, IntegerField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError, NumberRange, Optional
 from flask_login import UserMixin
+from trip import db
 
 import pymysql
 
-class CalendarAdmin(UserMixin):
-    """User class for flask-login"""
 
-    def __init__(self, id):
-        self.id = id
-        self.name = DatabaseOperations().find_username_by_phone(self.id)
-        self.password = DatabaseOperations().find_password_by_phone(self.id)
-        self.name = DatabaseOperations().find_username_by_phone(self.id)
-        self.role = DatabaseOperations().find_role_by_phone(self.id)
-        self.uid = DatabaseOperations().find_uid_by_phone(self.id)
-
+def User_query(phone,password):
+    res = db.session.query(User).filter(User.phone==phone).filter(User.password==password).first()
+    if res is not None:
+        return res
 class DatabaseOperations():
     # database connection
     __db_url = 'localhost'
@@ -35,7 +30,7 @@ class DatabaseOperations():
         self.__db = pymysql.connect(self.__db_url, self.__db_username,
                                     self.__db_password, self.__db_name)
         return self.__db
-        
+
     def db_insert(self, sql):
         self.__init__()
         cursor = self.__db.cursor()

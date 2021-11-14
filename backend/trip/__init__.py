@@ -1,7 +1,11 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import Column, String, create_engine
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
 from flask_cors import CORS
 from flask_marshmallow import Marshmallow
+from flask_login import LoginManager, login_manager
 
 
 
@@ -17,10 +21,20 @@ app.config['SECRET_KEY'] = '5e85752d580a74b6f80231020d3f2e95'
 app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:Ldy26060@localhost:3306/tripnow'
 
 db = SQLAlchemy(app)
-ma = Marshmallow(app)
+
+# Base = declarative_base()
+
+# db = create_engine('mysql+pymysql://root:Ldy26060@localhost:3306/tripnow')
+# DBSession = sessionmaker(bind=db)
+# session = DBSession()
+
 app.config.from_object(__name__)
 # 跨域请求
 CORS(app, resources={r'/*': {'origins': '*'}})
+
+login_manager = LoginManager(app)
+login_manager.init_app(app)
+login_manager.login_view = 'login'
 
 from trip import routes
 

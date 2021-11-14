@@ -1,8 +1,10 @@
-from trip import app, db, ma
-from marshmallow import fields
+from flask_login.mixins import UserMixin
+from trip import app, db
+from sqlalchemy import Column, String, create_engine
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
 
-
-class User(db.Model):
+class User(db.Model, UserMixin):
     __tablename__ = "user"
     id = db.Column(db.Integer,primary_key=True,nullable=False)
     user_name = db.Column(db.String(20), nullable=False)
@@ -19,34 +21,26 @@ class User(db.Model):
             'password': self.password,
 
         }
-    # def __repr__(self, users=None):
-    #     if not users:
-    #         return 404
-    #     res = []
-    #     for item in users:
-    #         res.append(
-    #             {
-    #                 'id': item.id,
-    #                 'user_name': item.user_name,
-    #                 'phone': item.phone,
-    #                 'email': item.email,
-    #                 'password': item.password
-    #             }
-    #         )
-    #     return res
-    # def __repr__(self):
-    #     return '<Product %d>' % self.id
 
+class CalendarAdmin(UserMixin):
+    """User class for flask-login"""
 
-class UserSchema(ma.SQLAlchemyAutoSchema):
-    class Meta:
-        model = User
-        load_instance = True
+    def __init__(self, phone):
+        self.phone = phone
+        user = db.session.query(User).filter(User.phone==phone).one()
+        self.name = user.user_name
+        self.password = user.password
+        self.id = user.id
 
-    id = fields.Number(dump_only=True)
-    user_name = fields.String(required=True)
-    phone = fields.String(required=True)
-    email = fields.String(required=True)
-    password = fields.String(required=True)
+# class UserSchema(ma.SQLAlchemyAutoSchema):
+#     class Meta:
+#         model = User
+#         load_instance = True
+
+#     id = fields.Number(dump_only=True)
+#     user_name = fields.String(required=True)
+#     phone = fields.String(required=True)
+#     email = fields.String(required=True)
+#     password = fields.String(required=True)
 
 

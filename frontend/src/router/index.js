@@ -1,10 +1,15 @@
 import Vue from 'vue'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+
 import Router from 'vue-router'
 import Container from '@/components/Container'
 import Login from '../components/Login'
 import Register from '../components/Register'
 import Ping from '../components/Ping.vue'
-
+import Plan from '../components/Plan.vue'
+import Choice from '../components/Choice.vue'
+import Tabs from '../components/Tabs.vue'
 Vue.use(Router)
 
 export default new Router({
