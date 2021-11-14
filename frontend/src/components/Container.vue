@@ -74,14 +74,14 @@
 
 <style scoped>
     .el-header {
-        background-color: #000000;
+        background-color: white;
         color: #333;
         border-radius: 1px;
         box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
     }
 
     .el-main {
-        background-color: #000000;
+        background-color: white;
         color: #333;
         text-align: center;
     }
@@ -105,7 +105,7 @@
     .headIcon {
         width: 150px;
         height: 60px;
-        background-image: url(../assets/ZHimg/icon-white-part.png);
+        background-image: url(../assets/ZHimg/icon-black.png);
         background-size: cover;
     }
 
@@ -114,6 +114,7 @@
         height: 480px;
         background-image: url(../assets/ZHimg/shell.jpg);
         background-size: cover;
+        opacity: 0.8;
         border-radius: 10px;
         padding-top: 100px;
         margin: 20px auto 20px auto;
