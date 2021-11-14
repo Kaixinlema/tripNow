@@ -10,13 +10,18 @@
                 </el-row>
             </el-header>
             <el-main>
-                <div class="formSet">
-                    <h3>注册TripNow账号</h3>
-                    <el-divider></el-divider>
-                    <el-form :model="regisForm" status-icon :rules="rules" ref="regisForm" class="demo-regisForm">
-                        <el-row gutter="20">
-                            <el-col :span="12">
-                                <el-form-item label="用户名" prop="user_name">
+                <el-row gutter="20">
+                    <el-col :span="12">
+                        <div class="iconSet">
+                        </div>
+                    </el-col>
+                    <el-col :span="12">
+                        <div class="formSet">
+                            <h3>注册TripNow账号</h3>
+                            <el-divider></el-divider>
+                            <el-form :model="regisForm" status-icon :rules="rules" ref="regisForm"
+                                class="demo-regisForm">
+                                <el-form-item label="用户名" prop="username">
                                     <el-input type="input" v-model="regisForm.username" clearable placeholder="请输入用户名"
                                         autocomplete="off"></el-input>
                                 </el-form-item>
@@ -28,9 +33,6 @@
                                     <el-input type="password" v-model="regisForm.passCheck" clearable
                                         placeholder="请确认密码" autocomplete="off"></el-input>
                                 </el-form-item>
-                            </el-col>
-
-                            <el-col :span="12">
                                 <el-form-item label="电话号" prop="phone">
                                     <el-input type="input" v-model="regisForm.phonenumber" clearable
                                         placeholder="请输入电话号码" autocomplete="off"></el-input>
@@ -39,36 +41,17 @@
                                     <el-input type="input" v-model="regisForm.mailAddress" clearable
                                         placeholder="请输入邮箱地址" autocomplete="off"></el-input>
                                 </el-form-item>
-
-                            </el-col>
-                        </el-row>
-                        <el-form-item>
-                            <el-button type="danger" @click="submitForm('regisForm')">提交</el-button>
-                        </el-form-item>
-
-                    </el-form>
-
-                </div>
-            </el-main>
-            <el-footer style="text-align: center; height: 400ox;">
-                <el-row :gutter="20">
-                    <el-col :span="6">
-                        <h3>联系我们</h3>
-                        <p>zy</p>
-                        <p>ldy</p>
-                    </el-col>
-                    <el-col :span="6">
-                        <h3>关于我们</h3>
-                    </el-col>
-                    <el-col :span="6" :offset="6">
-                        <h3>合作</h3>
-                        <i class="el-icon-share"></i>
-                        <i class="el-icon-delete"></i>
-                    </el-col>
-                </el-row>
-            </el-footer>
-        </el-container>
-    </div>
+                                <el-form-item>
+                                    <el-button type="danger" @click="submitForm('regisForm')">提交</el-button>
+                                </el-form-item>
+                        
+                        </el-form>
+                    </div>
+                </el-col>
+            </el-row>
+        </el-main>
+    </el-container>
+</div>
 </template>
 
 <script>
@@ -179,8 +162,7 @@ import axios from 'axios';
 </script>
 
 <style scoped>
-    .el-header,
-    .el-footer {
+    .el-header {
         background-color: #ffffff;
         color: #333;
         border-radius: 1px;
@@ -188,24 +170,35 @@ import axios from 'axios';
     }
 
     .el-main {
-        background-color: #E9EEF3;
+        background-image: url(../assets/ZHimg/day.jpg);
+        background-size: cover;
         color: #333;
         text-align: center;
         line-height: 40px;
     }
 
     .formSet {
-        width: 600px;
+        width: 300px;
         background-color: #ffffff;
         border-radius: 5px;
         margin: auto;
         padding: 20px;
+        margin-top: 50px;
+        margin-bottom: 50px;
     }
 
     .headIcon {
         width: 150px;
         height: 60px;
         background-image: url(../assets/ZHimg/icon-black.png);
+        background-size: cover;
+    }
+
+    .iconSet {
+        width: 560px;
+        height: 170px;
+        margin-top: 30%;
+        background-image: url(../assets/ZHimg/icon-black-all.png);
         background-size: cover;
     }
 </style>
