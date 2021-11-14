@@ -1,8 +1,7 @@
 from flask_login.mixins import UserMixin
 from trip import app, db
-from sqlalchemy import Column, String, create_engine
+from sqlalchemy import Column, String
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
 
 class User(db.Model, UserMixin):
     __tablename__ = "user"
