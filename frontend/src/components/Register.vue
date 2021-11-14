@@ -64,9 +64,9 @@
         data() {
             var vPassword = (rule, value, callback) => {
                 if (value !== this.regisForm.password) {
-                    callback(new Error('两次输入密码不一致！'));
+                    callback(new Error('两次输入密码不一致！'))
                 } else {
-                    callback();
+                    callback()
                 }
             }
 

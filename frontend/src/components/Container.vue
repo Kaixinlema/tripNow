@@ -8,57 +8,31 @@
                         </div>
                     </el-col>
                     <el-col :span="12" style="text-align: right;">
-                        <el-button type="danger" @click="toLogin">登录</el-button>
-                        <el-button type="danger" @click="toRegister">注册</el-button>
+                        <el-button type="danger" plain @click="toLogin">登录</el-button>
+                        <el-button type="danger" plain @click="toRegister">注册</el-button>
                     </el-col>
                 </el-row>
             </el-header>
             <el-main>
-                <el-row :gutter="20">
-                    <el-col :span="12">
-                        <div class="grid-content bg-purple">
-                            <el-carousel height="400px">
-                                <el-carousel-item v-for="item in imgs" :key="item.name">
-                                    <el-image :src="item.img"></el-image>
-                                </el-carousel-item>
-                            </el-carousel>
-                        </div>
-                    </el-col>
-                    <el-col :span="12">
-                        <div class="grid-content bg-purple-light">
-                            <el-carousel height="400px">
-                                <el-carousel-item v-for="item in imgs" :key="item.name">
-                                    <el-image :src="item.img"></el-image>
-                                </el-carousel-item>
-                            </el-carousel>
-                        </div>
-                    </el-col>
-                </el-row>
-                <div style="padding: 50px;">
-                    <el-button type="danger" @click="toPlan">开始制定计划！</el-button>
+                <div class="mainPage">
+                    <div class="mainContent">
+                        <el-button type="text" @click="toPlan" style="font-size: 25px; color:#ffffff;">
+                            <i class="el-icon-caret-right"></i> 开始制定计划！
+                        </el-button>
+                    </div>
                 </div>
+
+
             </el-main>
         </el-container>
     </div>
 </template>
 
 <script>
-    import img1 from "../assets/ZHimg/spring.jpg";
-    import img2 from "../assets/ZHimg/summer.jpg";
-    import img3 from "../assets/ZHimg/fall.jpg";
-    import img4 from "../assets/ZHimg/winter.jpg";
-
-
     export default {
         name: "Container",
         data() {
             return {
-                imgs: [
-                    { img: img1, name: 'spring' },
-                    { img: img2, name: 'summer' },
-                    { img: img3, name: 'fall' },
-                    { img: img4, name: 'winter' },
-                ]
             };
         },
         methods: {
@@ -78,14 +52,14 @@
 
 <style scoped>
     .el-header {
-        background-color: #ffffff;
+        background-color: #000000;
         color: #333;
         border-radius: 1px;
         box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
     }
 
     .el-main {
-        background-color: #E9EEF3;
+        background-color: #000000;
         color: #333;
         text-align: center;
     }
@@ -109,7 +83,27 @@
     .headIcon {
         width: 150px;
         height: 60px;
-        background-image: url(../assets/ZHimg/icon-black.png);
+        background-image: url(../assets/ZHimg/icon-white-part.png);
         background-size: cover;
+    }
+
+    .mainPage {
+        width: 1040px;
+        height: 480px;
+        background-image: url(../assets/ZHimg/shell.jpg);
+        background-size: cover;
+        border-radius: 10px;
+        padding-top: 100px;
+        margin: 20px auto 20px auto;
+    }
+
+    .mainContent {
+        width: 300px;
+        height: 80px;
+        font-size: 50px;
+        border: 5px solid lightblue;
+        border-radius: 50px;
+        padding: auto;
+        margin: auto;
     }
 </style>

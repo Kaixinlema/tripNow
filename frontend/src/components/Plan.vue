@@ -17,37 +17,26 @@
                 <div class="formSet">
                     <h3>TripNow旅行计划定制</h3>
                     <el-divider></el-divider>
-                    <el-form :model="planForm" status-icon ref="planForm" class="demo-planForm">
-                        <el-form-item label="标签" prop="likedLabel">
+                    <el-form :model="planForm" :rules="rules" status-icon ref="planForm" class="demo-planForm">
+                        <el-form-item label="标签" prop="interest">
                             <el-select v-model="planForm.interest" multiple placeholder="请选择">
-                                <el-option label="城市观光" value="cityScene"></el-option>
-                                <el-option label="购物商圈" value="shopMall"></el-option>
-                                <el-option label="历史人文" value="hisCulture"></el-option>
-                                <el-option label="美食汇集" value="foodTaste"></el-option>
-                                <el-option label="休闲时光" value="relaxTime"></el-option>
-                                <el-option label="主题世界" value="amusePark"></el-option>
-                                <el-option label="自然风光" value="naturalSight"></el-option>
+                                <el-option :label="'城市观光'" value="cityScene"></el-option>
+                                <el-option :label="'购物商圈'" value="shopMall"></el-option>
+                                <el-option :label="'历史人文'" value="hisCulture"></el-option>
+                                <el-option :label="'美食汇集'" value="foodTaste"></el-option>
+                                <el-option :label="'休闲时光'" value="relaxTime"></el-option>
+                                <el-option :label="'主题世界'" value="amusePark"></el-option>
+                                <el-option :label="'自然风光'" value="naturalSight"></el-option>
                             </el-select>
                         </el-form-item>
-                        <el-form-item label="预计日开销" prop="predictCost">
-                            <el-radio-group v-model="planForm.cost">
-                                <el-radio :label="1">300元</el-radio>
-                                <el-radio :label="2">600元</el-radio>
-                                <el-radio :label="3">900元</el-radio>
-                                <el-radio :label="4">其他</el-radio>
-                            </el-radio-group>
-                            <el-input v-model="planForm.otherCost" v-if="planForm.cost == 4"
-                                style="width:120px; margin-left: 10px;" placeholder="请输入内容">
-                            </el-input>
-                        </el-form-item>
                         <el-form-item label="预计人数" prop="number">
-                            <el-radio-group v-model="planForm.number">
-                                <el-radio :label="1">一人游</el-radio>
-                                <el-radio :label="2">双人游</el-radio>
-                                <el-radio :label="3">三人行</el-radio>
-                                <el-radio :label="4">其他</el-radio>
+                            <el-radio-group v-model="planForm.number" @change="printValue">
+                                <el-radio :label="'1'">一人游</el-radio>
+                                <el-radio :label="'2'">双人游</el-radio>
+                                <el-radio :label="'3'">三人行</el-radio>
+                                <el-radio :label="'4'">其他</el-radio>
                             </el-radio-group>
-                            <el-input v-model="planForm.otherNumber" v-if="planForm.number == 4"
+                            <el-input v-model="planForm.otherNumber" v-if="planForm.number == '4'"
                                 style="width:120px; margin-left: 10px;" placeholder="请输入内容">
                             </el-input>
                         </el-form-item>
@@ -65,13 +54,37 @@
     export default {
         name: "Plan",
         data() {
+            var vNumber = (rule, value, callback) => {
+                if (value == '4') {
+                    if (this.planForm.otherNumber == '') {
+                        callback(new Error('请决定出行人数！'))
+                    } else {
+                        if (!(/^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/).test(this.planForm.otherNumber)) {
+                            callback(new Error('请输入数字值'))
+                        } else {
+                            callback()
+                        }
+                    }
+                } else {
+                    callback()
+                }
+            }
+
             return {
                 planForm: {
                     interest: [],
-                    cost: 1,
-                    otherCost: '',
-                    number: 1,
+                    number: '',
                     otherNumber: '',
+                },
+                rules: {
+                    interest: [
+                        { required: true, message: '请选择心仪标签', trigger: 'change' },
+                    ],
+                    number: [
+                        { required: true, message: '请决定出行人数', trigger: 'change' },
+                        { validator: vNumber, trigger: 'blur' },
+                    ],
+
                 },
             }
         },
@@ -81,6 +94,9 @@
             },
             toIndex() {
                 this.$router.push("/");
+            },
+            printValue() {
+                console.log(this.planForm.number);
             },
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
