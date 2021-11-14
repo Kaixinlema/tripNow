@@ -16,7 +16,6 @@
             <el-main>
                 <el-row gutter="20">
                     <el-col :span="12">
-
                         <div class="iconSet">
                         </div>
                     </el-col>
@@ -42,23 +41,6 @@
                     </el-col>
                 </el-row>
             </el-main>
-            <el-footer style="text-align: center; height: 400ox;">
-                <el-row :gutter="20">
-                    <el-col :span="6">
-                        <h3>联系我们</h3>
-                        <p>zy</p>
-                        <p>ldy</p>
-                    </el-col>
-                    <el-col :span="6">
-                        <h3>关于我们</h3>
-                    </el-col>
-                    <el-col :span="6" :offset="6">
-                        <h3>合作</h3>
-                        <i class="el-icon-share"></i>
-                        <i class="el-icon-delete"></i>
-                    </el-col>
-                </el-row>
-            </el-footer>
         </el-container>
     </div>
 </template>
@@ -100,8 +82,7 @@
 </script>
 
 <style scoped>
-    .el-header,
-    .el-footer {
+    .el-header {
         background-color: #ffffff;
         color: #333;
         border-radius: 1px;
@@ -111,7 +92,6 @@
     .el-main {
         background-image: url(../assets/ZHimg/night.jpg);
         background-size: cover;
-
         color: #333;
         text-align: center;
         line-height: 40px;
