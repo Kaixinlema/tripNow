@@ -1,15 +1,19 @@
 import Vue from 'vue'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+
 import Router from 'vue-router'
 import Container from '@/components/Container'
 import Login from '../components/Login'
 import Register from '../components/Register'
-import Plan from '../components/Plan'
-import Choice from '../components/Choice'
-import Tabs from '../components/Tabs'
-
+import Ping from '../components/Ping.vue'
+import Plan from '../components/Plan.vue'
+import Choice from '../components/Choice.vue'
+import Tabs from '../components/Tabs.vue'
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history', 
   routes: [
     {
       path: '/',
@@ -31,6 +35,11 @@ export default new Router({
       meta: {
         title: 'System'
       }
+    },
+    {
+      path: '/ping',   
+      name: 'Ping',
+      component: Ping,
     },
     {
       path: '/plan',

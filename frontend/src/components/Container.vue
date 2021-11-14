@@ -7,9 +7,16 @@
                         <div class="headIcon" @click="$router.push('/')">
                         </div>
                     </el-col>
-                    <el-col :span="12" style="text-align: right;">
-                        <el-button type="danger" plain @click="toLogin">登录</el-button>
-                        <el-button type="danger" plain @click="toRegister">注册</el-button>
+                    <el-col v-if="username == ''" span="12" style="text-align: right;">
+                        <el-button type="danger" @click="toLogin"> 登录 </el-button>
+                        <el-button type="danger" @click="toRegister">注册</el-button>
+                    </el-col>
+                    <el-col v-else span="12" style="text-align: right;">
+                        <el-a style="color:grey; font-size:20px; margin-right: 20px;">
+                            <i class="el-icon-user-solid"></i>
+                            <b> {{username}} </b>
+                        </el-a>
+                        <el-button type="text" icon="el-icon-switch-button" @click="logout" plain>退出登录</el-button>
                     </el-col>
                 </el-row>
             </el-header>
@@ -29,10 +36,13 @@
 </template>
 
 <script>
+
     export default {
+        inject: ['reload'],
         name: "Container",
         data() {
             return {
+                username: '',
             };
         },
         methods: {
@@ -45,8 +55,20 @@
             toPlan() {
                 this.$router.push("/plan");
             },
+            logout() {
+                sessionStorage.removeItem("accessToken")
+                this.$message.success("Logout Successful");
+                this.reload();
+            }
 
+        },
+        created() {
+            let curr_user = sessionStorage.getItem('accessToken')
+            if (curr_user) {
+                this.username = JSON.parse(curr_user)
+            }
         }
+
     };
 </script>
 

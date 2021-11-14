@@ -7,10 +7,6 @@
                         <div class="headIcon" @click="$router.push('/')">
                         </div>
                     </el-col>
-                    <el-col :span="12" style="text-align: right;">
-                        <el-button type="danger" plain @click="toLogin">登录</el-button>
-                        <el-button type="danger" @click="toRegister">注册</el-button>
-                    </el-col>
                 </el-row>
             </el-header>
             <el-main>
@@ -21,44 +17,48 @@
                     </el-col>
                     <el-col :span="12">
                         <div class="formSet">
-                            <h3>注册TripNow账号</h3>
+                            <h3><b>注册TripNow账号</b></h3>
                             <el-divider></el-divider>
                             <el-form :model="regisForm" status-icon :rules="rules" ref="regisForm"
                                 class="demo-regisForm">
-                                <el-form-item label="用户名" prop="username">
-                                    <el-input type="input" v-model="regisForm.username" clearable placeholder="请输入用户名"
+                                <el-form-item label="用户名" prop="user_name">
+                                    <el-input type="input" v-model="regisForm.user_name" clearable placeholder="请输入用户名" suffix-icon="el-icon-user"
                                         autocomplete="off"></el-input>
                                 </el-form-item>
                                 <el-form-item label="密码" prop="password">
                                     <el-input type="password" v-model="regisForm.password" clearable placeholder="请输入密码"
-                                        autocomplete="off"></el-input>
+                                        autocomplete="off" suffix-icon="el-icon-lock"></el-input>
                                 </el-form-item>
                                 <el-form-item label="确认密码" prop="passCheck">
                                     <el-input type="password" v-model="regisForm.passCheck" clearable
-                                        placeholder="请确认密码" autocomplete="off"></el-input>
+                                        placeholder="请确认密码" autocomplete="off" suffix-icon="el-icon-lock"></el-input>
                                 </el-form-item>
-                                <el-form-item label="电话号" prop="phonenumber">
-                                    <el-input type="input" v-model="regisForm.phonenumber" clearable
-                                        placeholder="请输入电话号码" autocomplete="off"></el-input>
+                                <el-form-item label="电话号" prop="phone">
+                                    <el-input type="input" v-model="regisForm.phone" clearable
+                                        placeholder="请输入电话号码" autocomplete="off" suffix-icon="el-icon-phone-outline"></el-input>
                                 </el-form-item>
-                                <el-form-item label="邮箱地址" prop="mailAddress">
-                                    <el-input type="input" v-model="regisForm.mailAddress" clearable
-                                        placeholder="请输入邮箱地址" autocomplete="off"></el-input>
+                                <el-form-item label="邮箱地址" prop="email">
+                                    <el-input type="input" v-model="regisForm.email" clearable
+                                        placeholder="请输入邮箱地址" autocomplete="off" suffix-icon="el-icon-message"></el-input>
                                 </el-form-item>
                                 <el-form-item>
                                     <el-button type="danger" @click="submitForm('regisForm')">提交</el-button>
                                 </el-form-item>
-                            </el-form>
-                        </div>
-                    </el-col>
-                </el-row>
-
-            </el-main>
-        </el-container>
-    </div>
+                                <el-form-item>
+                                    <el-link type="primary" @click="toLogin()">已有账号？去登录</el-link>
+                                </el-form-item>
+                        
+                        </el-form>
+                    </div>
+                </el-col>
+            </el-row>
+        </el-main>
+    </el-container>
+</div>
 </template>
 
 <script>
+import axios from 'axios';
     export default {
         name: "Register",
         data() {
@@ -88,26 +88,25 @@
                     callback()
                 }
             }
-
             return {
                 regisForm: {
-                    username: '',
-                    phonenumber: '',
-                    mailAddress: '',
+                    user_name: '',
+                    phone: '',
+                    email: '',
                     password: '',
                     passCheck: '',
                 },
                 rules: {
-                    username: [
+                    user_name: [
                         { required: true, message: '请输入用户名', trigger: 'blur' },
-                        { min: 5, max: 20, message: '长度在5到20个字符之间', trigger: 'blur' },
+                        { min: 2, max: 20, message: '长度在2到20个字符之间', trigger: 'blur' },
                     ],
-                    phonenumber: [
+                    phone: [
                         { required: true, message: '请输入联系方式', trigger: 'blur' },
                         { min: 11, max: 11, message: '长度应为11位', trigger: 'blur' },
                         { validator: vPhone, trigger: 'blur' },
                     ],
-                    mailAddress: [
+                    email: [
                         { required: true, message: '请输入邮箱地址', trigger: 'blur' },
                         { min: 5, max: 20, message: '长度在5到20个字符之间', trigger: 'blur' },
                         { validator: vMail, trigger: 'blur' },
@@ -130,12 +129,32 @@
             toIndex() {
                 this.$router.push("/");
             },
-
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        alert('submit!');
-                    } else {
+                        const path = 'http://127.0.0.1:5000/register';
+                        axios.post(path,{
+                            user_name: this.regisForm.user_name,
+                            phone: this.regisForm.phone,
+                            email: this.regisForm.email,
+                            password: this.regisForm.password,
+                        }).then((res)=>{
+                            console.log(res.data);
+                            if (res.data.status == 'ok'){
+                                this.$message.success("注册成功！去登录")
+                                this.$router.push("/login");
+                            }
+                            else{
+                                this.$message.error(res.data.info);
+                                console.log('error submit!!');
+                                return false;
+                            }
+                        }).catch(function (error) {
+                            console.error(error);
+                            return false;
+                        })   
+                    }
+                    else {
                         console.log('error submit!!');
                         return false;
                     }

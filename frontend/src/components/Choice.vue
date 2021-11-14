@@ -58,9 +58,9 @@
                                     <div slot="header" class="clearfix">
                                         <span>已选择景点</span>
                                     </div>
-                                    <ul>
+                                    <!-- <ul>
                                         <li v-for="index in choiceForm.finalChoice">{{items[index-1].name}}</li>
-                                    </ul>
+                                    </ul> -->
                                     <div style="text-align: center;">
                                         <el-form-item>
                                             <el-button type="primary" @click.prevent="submitForm()">提交</el-button>

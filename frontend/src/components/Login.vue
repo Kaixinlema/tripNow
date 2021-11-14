@@ -7,10 +7,7 @@
                         <div class="headIcon" @click="$router.push('/')">
                         </div>
                     </el-col>
-                    <el-col :span="12" style="text-align: right;">
-                        <el-button type="danger">登录</el-button>
-                        <el-button type="danger" plain @click="toRegister">注册</el-button>
-                    </el-col>
+                    
                 </el-row>
             </el-header>
             <el-main>
@@ -25,16 +22,19 @@
                             <el-divider></el-divider>
                             <el-form :model="loginForm" status-icon :rules="rules" ref="loginForm"
                                 class="demo-loginForm">
-                                <el-form-item label="用户名" prop="username">
-                                    <el-input type="input" v-model="loginForm.username" clearable placeholder="请输入用户名"
-                                        autocomplete="off"></el-input>
+                                <el-form-item label="手机号" prop="phone">
+                                    <el-input type="input" v-model="loginForm.phone" clearable placeholder="请输入手机号"
+                                        autocomplete="off" suffix-icon="el-icon-phone-outline"></el-input>
                                 </el-form-item>
                                 <el-form-item label="密码" prop="password">
                                     <el-input type="password" v-model="loginForm.password" clearable placeholder="请输入密码"
-                                        autocomplete="off"></el-input>
+                                        autocomplete="off" suffix-icon="el-icon-lock"></el-input>
                                 </el-form-item>
                                 <el-form-item>
                                     <el-button type="danger" @click="submitForm('loginForm')">提交</el-button>
+                                </el-form-item>
+                                 <el-form-item>
+                                    <el-link type="primary" @click="toRegister()">没有账号？去注册</el-link>
                                 </el-form-item>
                             </el-form>
                         </div>
@@ -46,16 +46,18 @@
 </template>
 
 <script>
+import axios from 'axios';
+
     export default {
         name: "Login",
         data() {
             return {
                 loginForm: {
-                    username: '',
+                    phone: '',
                     password: '',
                 },
                 rules: {
-                    username: { required: true, message: '请输入用户名', trigger: 'blur' },
+                    phone: { required: true, message: '请输入手机号', trigger: 'blur' },
                     password: { required: true, message: '请输入密码', trigger: 'blur' },
                 }
             }
@@ -70,14 +72,37 @@
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        alert('submit!');
-                    } else {
+                        const path = 'http://127.0.0.1:5000/login';
+                        axios.post(path,{
+                            phone: this.loginForm.phone,
+                            password: this.loginForm.password
+                        }).then((res)=>{
+                            console.log(res.data);
+                            if (res.data.status == 'ok'){
+                                sessionStorage.setItem('accessToken',JSON.stringify(res.data.session))
+                                this.$message.success("登录成功");
+                                this.$router.push("/");
+                            }
+                            else{
+                                this.$message.error(res.data.info);
+                                console.log('error submit!!');
+                                return false;
+                            }
+                        }).catch(function (error) {
+                            console.error(error);
+                            return false;
+                        })   
+                    }
+                    else{
                         console.log('error submit!!');
                         return false;
                     }
                 });
             },
-        }
+        },
+        creater(){
+            this.submitForm(formName);
+        },
     };
 </script>
 
