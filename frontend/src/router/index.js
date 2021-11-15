@@ -46,6 +46,7 @@ export default new Router({
       component: Plan,
     },
     {
+      name: 'choice',
       path: '/choice',
       component: Choice,
     },

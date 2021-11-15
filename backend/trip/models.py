@@ -3,6 +3,41 @@ from trip import app, db
 from sqlalchemy import Column, String
 from sqlalchemy.orm import sessionmaker
 
+class Label(db.Model):
+    __tablename__ = "attraction_label"
+    id = db.Column(db.Integer,primary_key=True,nullable=False)
+    label_name = db.Column(db.String(10))
+
+    def to_json(self):
+        return {
+            'id': self.id,
+        }
+
+class Attraction(db.Model):
+    __tablename__ = "attraction_info"
+    id = db.Column(db.Integer,primary_key=True,nullable=False)
+    attraction_name = db.Column(db.String(20), nullable=False)
+    attraction_label = db.Column(db.Integer,nullable=False)
+    attraction_lng = db.Column(db.Float,nullable=False)
+    attraction_lat = db.Column(db.Float,nullable=False)
+    attraction_detail = db.Column(db.Text,nullable=False)
+
+    def to_json(self):
+        return {
+            'id': self.id,
+            'attraction_name': self.attraction_name,
+            'attraction_label': self.attraction_label,
+            'attraction_lng': self.attraction_lng,
+            'attraction_lat': self.attraction_lat,
+            'attraction_detail': self.attraction_detail
+        }
+    def basic_to_json(self):
+        return {
+            'id': self.id,
+            'attraction_name': self.attraction_name,
+            'attraction_label': self.attraction_label,
+            'attraction_detail': self.attraction_detail
+        }
 class User(db.Model, UserMixin):
     __tablename__ = "user"
     id = db.Column(db.Integer,primary_key=True,nullable=False)

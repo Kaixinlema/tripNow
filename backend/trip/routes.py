@@ -33,13 +33,11 @@ def login():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        print("enter")
         phone = request.json.get('phone')
         exist = db.session.query(User).filter(User.phone==phone).first()
         if exist is not None:
             return jsonify({'status':'no','info':'该手机号已被注册！'})
         else:
-            print("enter")
             password = request.json.get('password')
             email = request.json.get('email')
             user_name = request.json.get('user_name')
@@ -50,6 +48,17 @@ def register():
             db.session.commit()
             return jsonify({'status':'ok','info':'注册成功'})
     return jsonify({'status':'no','info':'注册失败！'})
+
+# @app.route('/plan',methods=['GET', 'POST'])
+# def get_attrctions():
+#     interest = request.json.get('interest')
+#     print(interest)
+#     result = []
+#     for item in interest:
+#          attractions = db.session.query(Attraction).filter(Attraction.attraction_label==item).order_by(Attraction.id)
+#          for attraction in attractions:
+#              result.append(attraction.basic_to_json())
+#     return jsonify(data=result)
 
 
 @app.route('/users',methods=['GET', 'POST'])

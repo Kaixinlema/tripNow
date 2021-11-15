@@ -1,4 +1,4 @@
-from trip.models import User
+from trip.models import *
 from flask_wtf import FlaskForm, Form
 from wtforms import StringField, PasswordField, SubmitField, IntegerField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError, NumberRange, Optional
