@@ -1,3 +1,4 @@
+from trip import routes
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, String, create_engine
@@ -7,18 +8,12 @@ from flask_cors import CORS
 from flask_marshmallow import Marshmallow
 from flask_login import LoginManager, login_manager
 
-
-
 app = Flask(__name__)
-
-
-
-
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['SQLALCHEMY_COMMIT_TEARDOWN'] = True
 app.config['SECRET_KEY'] = '5e85752d580a74b6f80231020d3f2e95'
-app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:Ldy26060@localhost:3306/tripnow'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost:3306/tripnow'
 
 db = SQLAlchemy(app)
 
@@ -35,8 +30,3 @@ CORS(app, resources={r'/*': {'origins': '*'}})
 login_manager = LoginManager(app)
 login_manager.init_app(app)
 login_manager.login_view = 'login'
-
-from trip import routes
-
- 
-

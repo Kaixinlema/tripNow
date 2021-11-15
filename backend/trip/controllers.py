@@ -16,7 +16,7 @@ class DatabaseOperations():
     # database connection
     __db_url = 'localhost'
     __db_username = 'root'
-    __db_password = 'Ldy26060'
+    __db_password = ''
     __db_name = 'tripnow'
     __db = ''
 

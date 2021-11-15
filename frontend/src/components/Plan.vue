@@ -121,10 +121,13 @@
     }
 
     .el-main {
-        background-color: #E9EEF3;
+        background-image: url(../assets/ZHimg/night.jpg);
+        background-size: cover;
         color: #333;
         text-align: center;
         line-height: 40px;
+        padding-top: 100px;
+        padding-bottom: 100px;
     }
 
     .formSet {
