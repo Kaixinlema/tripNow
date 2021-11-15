@@ -22,11 +22,9 @@
                         <el-form-item label="标签" prop="interest">
                             <el-select v-model="planForm.interest" multiple placeholder="请选择">
                                 <el-option :label="'城市观光'" value="cityScene"></el-option>
-                                <el-option :label="'购物商圈'" value="shopMall"></el-option>
+                                <el-option :label="'澳门景点'" value="macauSpot"></el-option>
                                 <el-option :label="'历史人文'" value="hisCulture"></el-option>
-                                <el-option :label="'美食汇集'" value="foodTaste"></el-option>
-                                <el-option :label="'休闲时光'" value="relaxTime"></el-option>
-                                <el-option :label="'主题世界'" value="amusePark"></el-option>
+                                <el-option :label="'主题公园'" value="amusePark"></el-option>
                                 <el-option :label="'自然风光'" value="naturalSight"></el-option>
                             </el-select>
                         </el-form-item>

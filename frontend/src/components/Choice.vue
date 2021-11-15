@@ -93,8 +93,8 @@
                     { name: 'huitong', index: 4, message: 'haha-intro', itsLabel: 'hisCulture', ifSelected: false },
                 ],
                 chosenLabels: [
-                    { value: 'hisCulture', name: '人文古迹' },
-                    { value: 'amusePark', name: '主题乐园' },
+                    { value: 'hisCulture', name: '历史人文' },
+                    { value: 'amusePark', name: '主题公园' },
                     { value: 'cityScene', name: '城市观光' },
                     { value: 'extraRec', name: '相关推荐' },
                 ],
