@@ -53,12 +53,16 @@
                         </el-col>
                         <el-col :span="4">
                             <el-card>
-                                <div slot="header" class="clearfix">
-                                    <span>已选择景点</span>
+                                <h4>已选择景点</h4>
+                                <el-divider></el-divider>
+                                <div v-if="choiceForm.finalChoice.length > 0" class="emptySet">
+                                    <div v-for="index in choiceForm.finalChoice">
+                                        <span>{{items[index-1].name}}</span>
+                                    </div>
                                 </div>
-                                <!-- <ul>
-                                        <li v-for="index in choiceForm.finalChoice">{{items[index-1].name}}</li>
-                                    </ul> -->
+                                <div v-else="choiceForm.finalChoice.length == 0" class="emptySet">
+                                    <span>暂无数据</span></span>
+                                </div>
                                 <div style="text-align: center;">
                                     <el-form-item>
                                         <el-button type="primary" @click.prevent="submitForm()">提交</el-button>
@@ -117,8 +121,12 @@
             },
             submitForm(event) {
                 let formData = new FormData;
-                formData.append("choice", this.choiceForm.finalChoice);
-                console.log(formData.get("choice"));
+                if (this.choiceForm.finalChoice.length == 0) {
+                    this.$message.error('请至少选择一个景点！');
+                } else {
+                    formData.append("choice", this.choiceForm.finalChoice);
+                    console.log(formData.get("choice"));
+                }
                 // this.$refs[formName].validate((valid) => {
                 //     if (valid) {
                 //         alert('submit!');
@@ -165,6 +173,13 @@
     .setCard {
         width: 400px;
         margin: 10px;
+    }
+
+    .emptySet {
+        text-align: center;
+        font-size: 15px;
+        font-family: Arial, Helvetica, sans-serif;
+        margin-bottom: 15px;
     }
 
     .time {
