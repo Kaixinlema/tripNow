@@ -20,10 +20,10 @@
                             <h3><b>注册TripNow账号</b></h3>
                             <el-divider></el-divider>
                             <el-form :model="regisForm" status-icon :rules="rules" ref="regisForm"
-                                class="demo-regisForm">
+                                class="demo-regisForm" id="labelColor">
                                 <el-form-item label="用户名" prop="user_name">
-                                    <el-input type="input" v-model="regisForm.user_name" clearable placeholder="请输入用户名" suffix-icon="el-icon-user"
-                                        autocomplete="off"></el-input>
+                                    <el-input type="input" v-model="regisForm.user_name" clearable placeholder="请输入用户名"
+                                        suffix-icon="el-icon-user" autocomplete="off"></el-input>
                                 </el-form-item>
                                 <el-form-item label="密码" prop="password">
                                     <el-input type="password" v-model="regisForm.password" clearable placeholder="请输入密码"
@@ -34,12 +34,12 @@
                                         placeholder="请确认密码" autocomplete="off" suffix-icon="el-icon-lock"></el-input>
                                 </el-form-item>
                                 <el-form-item label="电话号" prop="phone">
-                                    <el-input type="input" v-model="regisForm.phone" clearable
-                                        placeholder="请输入电话号码" autocomplete="off" suffix-icon="el-icon-phone-outline"></el-input>
+                                    <el-input type="input" v-model="regisForm.phone" clearable placeholder="请输入电话号码"
+                                        autocomplete="off" suffix-icon="el-icon-phone-outline"></el-input>
                                 </el-form-item>
                                 <el-form-item label="邮箱地址" prop="email">
-                                    <el-input type="input" v-model="regisForm.email" clearable
-                                        placeholder="请输入邮箱地址" autocomplete="off" suffix-icon="el-icon-message"></el-input>
+                                    <el-input type="input" v-model="regisForm.email" clearable placeholder="请输入邮箱地址"
+                                        autocomplete="off" suffix-icon="el-icon-message"></el-input>
                                 </el-form-item>
                                 <el-form-item>
                                     <el-button type="danger" @click="submitForm('regisForm')">提交</el-button>
@@ -47,18 +47,18 @@
                                 <el-form-item>
                                     <el-link type="primary" @click="toLogin()">已有账号？去登录</el-link>
                                 </el-form-item>
-                        
-                        </el-form>
-                    </div>
-                </el-col>
-            </el-row>
-        </el-main>
-    </el-container>
-</div>
+
+                            </el-form>
+                        </div>
+                    </el-col>
+                </el-row>
+            </el-main>
+        </el-container>
+    </div>
 </template>
 
 <script>
-import axios from 'axios';
+    import axios from 'axios';
     export default {
         name: "Register",
         data() {
@@ -133,18 +133,18 @@ import axios from 'axios';
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         const path = 'http://127.0.0.1:5000/register';
-                        axios.post(path,{
+                        axios.post(path, {
                             user_name: this.regisForm.user_name,
                             phone: this.regisForm.phone,
                             email: this.regisForm.email,
                             password: this.regisForm.password,
-                        }).then((res)=>{
+                        }).then((res) => {
                             console.log(res.data);
-                            if (res.data.status == 'ok'){
+                            if (res.data.status == 'ok') {
                                 this.$message.success("注册成功！去登录")
                                 this.$router.push("/login");
                             }
-                            else{
+                            else {
                                 this.$message.error(res.data.info);
                                 console.log('error submit!!');
                                 return false;
@@ -152,7 +152,7 @@ import axios from 'axios';
                         }).catch(function (error) {
                             console.error(error);
                             return false;
-                        })   
+                        })
                     }
                     else {
                         console.log('error submit!!');
@@ -180,9 +180,19 @@ import axios from 'axios';
         line-height: 40px;
     }
 
+    .el-divider {
+        background-color: #ffffff;
+    }
+
+    #labelColor>>>.el-form-item__label {
+        color: #000000;
+        font-size: 14px;
+    }
+
     .formSet {
         width: 300px;
-        background-color: #ffffff;
+        background-color: rgba(255, 255, 255, 0.8);
+
         border-radius: 5px;
         margin: auto;
         padding: 20px;

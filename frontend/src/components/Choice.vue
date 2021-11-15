@@ -4,8 +4,8 @@
             <el-header style=" line-height: 60px;">
                 <el-row>
                     <el-col :span="12" style="text-align: left;">
-                        <el-button type="plain">图标</el-button>
-                        <el-button type="plain" @click="toIndex">首页</el-button>
+                        <div class="headIcon" @click="$router.push('/')">
+                        </div>
                     </el-col>
                     <el-col :span="12" style="text-align: right;">
                         <el-button type="plain">用户名</el-button>
@@ -14,63 +14,60 @@
                 </el-row>
             </el-header>
             <el-main>
-
-                <div class="formSet">
-                    <h3>选择详细景点</h3>
-                    <el-divider></el-divider>
-                    <el-form :model="choiceForm" ref="choiceForm">
-                        <el-row>
-                            <el-col :span="20">
-                                <el-tabs :tab-position="'left'" style="height: 100%;">
-                                    <el-tab-pane :model="chosenLabels" v-for="(chosenLabel) in chosenLabels"
-                                        :key="chosenLabel.value" :label="chosenLabel.name">
-                                        <el-row>
-                                            <el-col :span="12" :model="items" v-for="(item) in items" :key="item.index">
-                                                <div v-if="item.itsLabel == chosenLabel.value" style="margin: 10px;">
-                                                    <el-card
-                                                        :body-style="{ padding: '10px', margin: '10px', height: '400px'}">
-                                                        <el-scrollbar>
-                                                            <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-                                                                class="image">
-                                                            <div style="padding: 14px;">
-                                                                <span style="font-size: 20px;">{{item.name}}</span>
-                                                                <div style="float: right; display: inline;">
-                                                                    <el-checkbox :label="item.index" :border="true"
-                                                                        :model="item.ifSelected" size="medium"
-                                                                        @change="changeInfo(item.index)">
-                                                                    </el-checkbox>
-                                                                </div>
-                                                                <el-divider></el-divider>
-                                                                <span style="text-align: left;">{{item.message}}</span>
-                                                                <div class="bottom clearfix">
-                                                                </div>
+                <h3>选择详细景点</h3>
+                <el-divider></el-divider>
+                <el-form :model="choiceForm" ref="choiceForm">
+                    <el-row>
+                        <el-col :span="20">
+                            <el-tabs :tab-position="'left'" style="height: 100%;">
+                                <el-tab-pane :model="chosenLabels" v-for="(chosenLabel) in chosenLabels"
+                                    :key="chosenLabel.value" :label="chosenLabel.name">
+                                    <el-row>
+                                        <el-col :span="12" :model="items" v-for="(item) in items" :key="item.index">
+                                            <div v-if="item.itsLabel == chosenLabel.value" style="margin: 10px;">
+                                                <el-card
+                                                    :body-style="{ padding: '10px', margin: '10px', height: '400px'}">
+                                                    <el-scrollbar>
+                                                        <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
+                                                            class="image">
+                                                        <div style="padding: 14px;">
+                                                            <span style="font-size: 20px;">{{item.name}}</span>
+                                                            <div style="float: right; display: inline;">
+                                                                <el-checkbox :label="item.index" :border="true"
+                                                                    :model="item.ifSelected" size="medium"
+                                                                    @change="changeInfo(item.index)">
+                                                                </el-checkbox>
                                                             </div>
-                                                        </el-scrollbar>
-                                                    </el-card>
-                                                </div>
-                                            </el-col>
-                                        </el-row>
-                                    </el-tab-pane>
-                                </el-tabs>
-                            </el-col>
-                            <el-col :span="4">
-                                <el-card>
-                                    <div slot="header" class="clearfix">
-                                        <span>已选择景点</span>
-                                    </div>
-                                    <!-- <ul>
+                                                            <el-divider></el-divider>
+                                                            <span style="text-align: left;">{{item.message}}</span>
+                                                            <div class="bottom clearfix">
+                                                            </div>
+                                                        </div>
+                                                    </el-scrollbar>
+                                                </el-card>
+                                            </div>
+                                        </el-col>
+                                    </el-row>
+                                </el-tab-pane>
+                            </el-tabs>
+                        </el-col>
+                        <el-col :span="4">
+                            <el-card>
+                                <div slot="header" class="clearfix">
+                                    <span>已选择景点</span>
+                                </div>
+                                <!-- <ul>
                                         <li v-for="index in choiceForm.finalChoice">{{items[index-1].name}}</li>
                                     </ul> -->
-                                    <div style="text-align: center;">
-                                        <el-form-item>
-                                            <el-button type="primary" @click.prevent="submitForm()">提交</el-button>
-                                        </el-form-item>
-                                    </div>
-                                </el-card>
-                            </el-col>
-                        </el-row>
-                    </el-form>
-                </div>
+                                <div style="text-align: center;">
+                                    <el-form-item>
+                                        <el-button type="primary" @click.prevent="submitForm()">提交</el-button>
+                                    </el-form-item>
+                                </div>
+                            </el-card>
+                        </el-col>
+                    </el-row>
+                </el-form>
             </el-main>
         </el-container>
     </div>
@@ -144,8 +141,9 @@
     }
 
     .el-main {
-        background-color: #E9EEF3;
+        background-color: white;
         color: #333;
+        padding: 0px 20px 60px 40px;
     }
 
     .el-card .el-scrollbar {
@@ -157,12 +155,11 @@
         overflow-x: hidden;
     }
 
-    .formSet {
-        width: 90%;
-        background-color: #ffffff;
-        border-radius: 5px;
-        margin: auto;
-        padding: 20px;
+    .headIcon {
+        width: 150px;
+        height: 60px;
+        background-image: url(../assets/ZHimg/icon-black.png);
+        background-size: cover;
     }
 
     .setCard {

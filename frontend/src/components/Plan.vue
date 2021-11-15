@@ -17,7 +17,8 @@
                 <div class="formSet">
                     <h3>TripNow旅行计划定制</h3>
                     <el-divider></el-divider>
-                    <el-form :model="planForm" :rules="rules" status-icon ref="planForm" class="demo-planForm">
+                    <el-form :model="planForm" :rules="rules" status-icon ref="planForm" class="demo-planForm"
+                        id="labelColor">
                         <el-form-item label="标签" prop="interest">
                             <el-select v-model="planForm.interest" multiple placeholder="请选择">
                                 <el-option :label="'城市观光'" value="cityScene"></el-option>
@@ -130,9 +131,18 @@
         padding-bottom: 100px;
     }
 
+    .el-divider {
+        background-color: #ffffff;
+    }
+
+    #labelColor>>>.el-form-item__label {
+        color: #000000;
+        font-size: 14px;
+    }
+
     .formSet {
         width: 600px;
-        background-color: #ffffff;
+        background-color: rgb(255, 255, 255, 0.8);
         border-radius: 5px;
         margin: auto;
         padding: 20px;

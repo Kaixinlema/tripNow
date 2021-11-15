@@ -7,7 +7,7 @@
                         <div class="headIcon" @click="$router.push('/')">
                         </div>
                     </el-col>
-                    
+
                 </el-row>
             </el-header>
             <el-main>
@@ -21,7 +21,7 @@
                             <h3>登录TripNow</h3>
                             <el-divider></el-divider>
                             <el-form :model="loginForm" status-icon :rules="rules" ref="loginForm"
-                                class="demo-loginForm">
+                                class="demo-loginForm" id="labelColor">
                                 <el-form-item label="手机号" prop="phone">
                                     <el-input type="input" v-model="loginForm.phone" clearable placeholder="请输入手机号"
                                         autocomplete="off" suffix-icon="el-icon-phone-outline"></el-input>
@@ -33,7 +33,7 @@
                                 <el-form-item>
                                     <el-button type="danger" @click="submitForm('loginForm')">提交</el-button>
                                 </el-form-item>
-                                 <el-form-item>
+                                <el-form-item>
                                     <el-link type="primary" @click="toRegister()">没有账号？去注册</el-link>
                                 </el-form-item>
                             </el-form>
@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+    import axios from 'axios';
 
     export default {
         name: "Login",
@@ -73,17 +73,17 @@ import axios from 'axios';
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         const path = 'http://127.0.0.1:5000/login';
-                        axios.post(path,{
+                        axios.post(path, {
                             phone: this.loginForm.phone,
                             password: this.loginForm.password
-                        }).then((res)=>{
+                        }).then((res) => {
                             console.log(res.data);
-                            if (res.data.status == 'ok'){
-                                sessionStorage.setItem('accessToken',JSON.stringify(res.data.session))
+                            if (res.data.status == 'ok') {
+                                sessionStorage.setItem('accessToken', JSON.stringify(res.data.session))
                                 this.$message.success("登录成功");
                                 this.$router.push("/");
                             }
-                            else{
+                            else {
                                 this.$message.error(res.data.info);
                                 console.log('error submit!!');
                                 return false;
@@ -91,16 +91,16 @@ import axios from 'axios';
                         }).catch(function (error) {
                             console.error(error);
                             return false;
-                        })   
+                        })
                     }
-                    else{
+                    else {
                         console.log('error submit!!');
                         return false;
                     }
                 });
             },
         },
-        creater(){
+        creater() {
             this.submitForm(formName);
         },
     };
@@ -117,15 +117,25 @@ import axios from 'axios';
     .el-main {
         background-image: url(../assets/ZHimg/night.jpg);
         background-size: cover;
-        color: #333;
+        color: black;
         text-align: center;
         line-height: 40px;
     }
 
+    .el-divider {
+        background-color: #ffffff;
+    }
+
+    #labelColor>>>.el-form-item__label {
+        color: #000000;
+        font-size: 14px;
+    }
+
     .formSet {
         width: 300px;
-        background-color: #ffffff;
+        background-color: rgb(255, 255, 255, 0.75);
         border-radius: 5px;
+        color: black;
         margin-top: 50px;
         margin-bottom: 50px;
         margin-left: 20%;
