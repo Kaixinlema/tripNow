@@ -1,5 +1,8 @@
 <template>
     <div>
+        <transition name="fade">
+            <Loading v-if="isLoading"></Loading>
+        </transition>
         <el-container>
             <el-header style=" line-height: 60px;">
                 <el-row>
@@ -42,7 +45,7 @@
                                                             <div style="padding: 14px;">
                                                                 <span style="font-size: 20px;">{{item.name}}</span>
                                                                 <div style="float: right; display: inline;">
-                                                                    <el-checkbox :label="item.index" :border="true"
+                                                                    <el-checkbox label="我想去" :border="true"
                                                                         :model="item.ifSelected" size="medium"
                                                                         @change="changeInfo(item.index)">
                                                                     </el-checkbox>
@@ -64,15 +67,20 @@
                             </el-col>
                             <el-col :span="4">
                                 <el-card>
-                                    <div slot="header" class="clearfix">
-                                        <span>已选择景点</span>
+                                    <h4>已选择景点</h4>
+                                <el-divider></el-divider>
+                                <div v-if="choiceForm.finalChoice.length > 0" class="emptySet">
+                                    <div v-for="index in choiceForm.finalChoice">
+                                        <span>{{items[index].name}}</span>
                                     </div>
-                                    <!-- <ul>
-                                        <li v-for="index in choiceForm.finalChoice">{{items[index-1].name}}</li>
-                                    </ul> -->
+                                </div>
+                                <div v-else="choiceForm.finalChoice.length == 0" class="emptySet">
+                                    <span>暂无数据</span></span>
+                                </div>
+
                                     <div style="text-align: center;">
                                         <el-form-item>
-                                            <el-button type="primary" @click.prevent="submitForm()">提交</el-button>
+                                            <el-button type="primary" @click.prevent="submitForm('choiceForm')">提交</el-button>
                                         </el-form-item>
                                     </div>
                                 </el-card>
@@ -86,7 +94,11 @@
 </template>
 
 <script>
+import axios from 'axios';
+import Loading from '../components/loading'
+
     export default {
+        components:{ Loading },
         name: "Choice",
         data() {
             return {
@@ -131,16 +143,16 @@
                     { name: '珠海市博物馆', index: 11, 
                     message: '古典风格的地标建筑，展品丰富，可以了解珠海本地的文化和历史。', 
                     itsLabel: 3, ifSelected: false },
-                    { name: '景山公园', index: 13, 
+                    { name: '景山公园', index: 12, 
                     message: '乘坐石景山索道，登上山顶，俯瞰壮观的山海风光。', 
                     itsLabel: 4, ifSelected: false },
-                    { name: '澳门塔', index: 14, 
+                    { name: '澳门塔', index: 13, 
                     message: '澳门地标，可以登上塔顶一览整个澳门的风光。', 
                     itsLabel: 2, ifSelected: false },
-                    { name: '大三巴牌坊', index: 15, 
+                    { name: '大三巴牌坊', index: 14, 
                     message: '澳门最具代表性的名胜古迹，澳门八景之一，位于澳门炮台山下，左临澳门博物馆和大炮台名胜。', 
                     itsLabel: 2, ifSelected: false },
-                    { name: '渔人码头', index: 16, 
+                    { name: '澳门渔人码头', index: 15, 
                     message: '澳门最具代表性的名胜古迹，澳门八景之一，位于澳门炮台山下，左临澳门博物馆和大炮台名胜。', 
                     itsLabel: 2, ifSelected: false },
 
@@ -152,20 +164,26 @@
                     { value: 4, name: '主题公园' },
                     { value: 5, name: '自然风光' },
                 ],
-                attracrtions: [],
                 labels: [],
                 number: '',
                 username: '',
+                isLoading: false,
             }
         },
         methods: {
+            toRegister() {
+                this.$router.push("register");
+            },
+            toLogin() {
+                this.$router.push("login");
+            },
             toIndex() {
                 this.$router.push("/");
             },
             changeInfo(e) {
                 console.log(e);
-                this.items[e - 1].ifSelected = !this.items[e - 1].ifSelected;
-                if (this.items[e - 1].ifSelected) {
+                this.items[e].ifSelected = !this.items[e].ifSelected;
+                if (this.items[e].ifSelected) {
                     this.choiceForm.finalChoice.push(e);
                 } else {
                     var length = this.choiceForm.finalChoice.length;
@@ -177,22 +195,31 @@
                 }
                 console.log(this.choiceForm.finalChoice);
             },
-            submitForm(event) {
+            submitForm(formName) {
+                const path = 'http://127.0.0.1:5000/choice';
                 let formData = new FormData;
                 formData.append("choice", this.choiceForm.finalChoice);
-                console.log(formData.get("choice"));
-                // this.$refs[formName].validate((valid) => {
-                //     if (valid) {
-                //         alert('submit!');
-                //     } else {
-                //         console.log('error submit!!');
-                //         return false;
-                //     }
-                // });
+                this.isLoading = true;
+                // console.log(formData.get("choice"));
+                axios.post(path,{
+                    choices: this.choiceForm.finalChoice, 
+                }).then((res)=>{
+                    console.log(res.data);
+                    this.isLoading = false;
+                    this.$message.success("为您推荐以下路线：）")
+                    this.$router.push({
+                        name: 'plan', 
+                        params: {
+                            route: res.data,
+                            number: this.number
+                        }
+                    })
+
+                })
+
             },
         },
         created() {
-            this.attracrtions = this.$route.params.attraction;
             this.labels = this.$route.params.labels;
             this.number = this.$route.params.number;
             let curr_user = sessionStorage.getItem('accessToken')
@@ -204,6 +231,14 @@
 </script>
 
 <style scoped>
+    .fade-enter,
+    .fade-leave-active {
+        opacity: 0;
+    }
+    .fade-enter-active,
+    .fade-leave-active {
+        transition: opacity 0.5s;
+    }
     .el-header {
         background-color: #ffffff;
         color: #333;

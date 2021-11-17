@@ -1,8 +1,10 @@
 from trip.models import *
+from trip.controllers import get_routes, dijkstra
 from trip import app, db
 from trip.controllers import DatabaseOperations, User_query
 from flask import Flask, jsonify, request, render_template, make_response, session
 from flask_login import login_user
+import json, re
 
 # route for home page
 @app.route('/')
@@ -49,16 +51,29 @@ def register():
             return jsonify({'status':'ok','info':'注册成功'})
     return jsonify({'status':'no','info':'注册失败！'})
 
-# @app.route('/plan',methods=['GET', 'POST'])
-# def get_attrctions():
-#     interest = request.json.get('interest')
-#     print(interest)
-#     result = []
-#     for item in interest:
-#          attractions = db.session.query(Attraction).filter(Attraction.attraction_label==item).order_by(Attraction.id)
-#          for attraction in attractions:
-#              result.append(attraction.basic_to_json())
-#     return jsonify(data=result)
+@app.route('/choice',methods=['GET', 'POST'])
+def get_route():
+    interest = request.json.get('choices')
+    print(interest)
+    attraction_names = []
+    for item in interest:
+        tmp = db.session.query(Attraction).filter(Attraction.id==item).first()
+        name = tmp.to_json()['attraction_name']
+        attraction_names.append(name)
+    consequent_result = []
+    for item in interest:
+        rules = db.session.query(Rule).filter(Rule.antecents.contains(str(item))).first()
+        if (rules):
+            consequent_id = rules.to_json()['consequents']
+            print(consequent_id)
+            consequent_id_todigit = (re.findall('\d+', consequent_id))
+            for attraction in consequent_id_todigit:
+                if int(attraction) not in interest:
+                    consequent_result.append(int(attraction))
+    route_result = get_routes(attraction_names, len(attraction_names))
+    print(route_result)
+    return jsonify({'recommend': consequent_result,
+                    'route': route_result})
 
 
 @app.route('/users',methods=['GET', 'POST'])

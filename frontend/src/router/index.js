@@ -10,6 +10,7 @@ import Ping from '../components/Ping.vue'
 import Plan from '../components/Plan.vue'
 import Choice from '../components/Choice.vue'
 import Tabs from '../components/Tabs.vue'
+
 Vue.use(Router)
 
 export default new Router({
@@ -42,6 +43,7 @@ export default new Router({
       component: Ping,
     },
     {
+      name: 'plan',
       path: '/plan',
       component: Plan,
     },

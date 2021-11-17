@@ -88,6 +88,9 @@
             toRegister() {
                 this.$router.push("register");
             },
+            toLogin() {
+                this.$router.push("login");
+            },
             toIndex() {
                 this.$router.push("/");
             },

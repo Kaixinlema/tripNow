@@ -3,6 +3,21 @@ from trip import app, db
 from sqlalchemy import Column, String
 from sqlalchemy.orm import sessionmaker
 
+class Rule(db.Model):
+    __tablename__ = "association_rule"
+    rule_id = db.Column(db.Integer,primary_key=True,nullable=False)
+    antecents = db.Column(db.String(20))
+    consequents = db.Column(db.String(20))
+    support = db.Column(db.Float)
+    confidence = db.Column(db.Float)
+    lift = db.Column(db.Float)
+
+    def to_json(self):
+        return{
+            'rule_id': self.rule_id,
+            'antecents': self.antecents,
+            'consequents': self.consequents
+        }
 class Label(db.Model):
     __tablename__ = "attraction_label"
     id = db.Column(db.Integer,primary_key=True,nullable=False)
