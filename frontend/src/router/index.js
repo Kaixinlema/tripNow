@@ -42,10 +42,12 @@ export default new Router({
       component: Ping,
     },
     {
+      name: 'plan',
       path: '/plan',
       component: Plan,
     },
     {
+      name: 'choice',
       path: '/choice',
       component: Choice,
     },

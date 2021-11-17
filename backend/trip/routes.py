@@ -1,18 +1,22 @@
 from trip.models import *
+from trip.controllers import get_routes, dijkstra
 from trip import app, db
 from trip.controllers import DatabaseOperations, User_query
 from flask import Flask, jsonify, request, render_template, make_response, session
 from flask_login import login_user
+import json, re
 
 # route for home page
 @app.route('/')
 def index():
     return app.send_static_file('index.html')
 
+
 # route for ping.vue
 @app.route('/api/ping', methods=['GET'])
 def ping_pong():
     return jsonify('pong!')
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -29,17 +33,15 @@ def login():
         return jsonify({'status':'no','info':'登录失败'})
     return jsonify({'status':'no','info':'登录失败'})
 
-
+# route for register
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        print("enter")
         phone = request.json.get('phone')
         exist = db.session.query(User).filter(User.phone==phone).first()
         if exist is not None:
             return jsonify({'status':'no','info':'该手机号已被注册！'})
         else:
-            print("enter")
             password = request.json.get('password')
             email = request.json.get('email')
             user_name = request.json.get('user_name')
@@ -50,6 +52,43 @@ def register():
             db.session.commit()
             return jsonify({'status':'ok','info':'注册成功'})
     return jsonify({'status':'no','info':'注册失败！'})
+
+# route for choice
+@app.route('/choice',methods=['GET', 'POST'])
+def get_route():
+    interest = request.json.get('choices')
+    attraction_names = []
+
+    for item in interest:
+        tmp = db.session.query(Attraction).filter(Attraction.id==item).first()
+        name = tmp.to_json()['attraction_name']
+        attraction_names.append(name)
+
+    consequent_result = []
+    for item in interest:
+        rules = db.session.query(Rule).filter(Rule.antecents.contains(str(item))).first()
+        if (rules):
+            consequent_id = rules.to_json()['consequents']
+            consequent_id_todigit = (re.findall('\d+', consequent_id))
+            for attraction in consequent_id_todigit:
+                if int(attraction) not in interest:
+                    consequent_result.append(int(attraction))
+    route = get_routes(attraction_names, len(attraction_names))
+    route_result = []
+    for poi in route:
+        info = db.session.query(Attraction).filter(Attraction.attraction_name==poi).first().to_json()
+        route_result.append(info)
+    return jsonify({'recommend': consequent_result,
+                    'route': route_result})
+
+@app.route('/hotels', methods=['GET', 'POST'])
+def get_hotel():
+    attraction_id = request.json.get('attraction_id')
+    res = db.session.query(Hotel).filter(Hotel.attraction_id==attraction_id).all()
+    result = []
+    for hotel in res:
+        result.append(hotel.to_json())
+    return jsonify(data=result)
 
 
 @app.route('/users',methods=['GET', 'POST'])

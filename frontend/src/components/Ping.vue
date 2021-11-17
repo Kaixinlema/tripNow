@@ -1,5 +1,7 @@
 <template>
+
   <div>
+
     <p>{{ msg }}</p>
   </div>
 </template>
@@ -8,12 +10,14 @@
 import axios from 'axios';
  
 export default {
-  name: 'Ping',
+  name: '',
   data() {
     return {
-      msg: '',
+      msg: [],
+      isLoading: true,
     };
   },
+
   methods: {
     getMessage() {
       const path = 'http://localhost:5000/api/ping';
@@ -26,9 +30,20 @@ export default {
           console.error(error);
         });
     },
+   
   },
   created() {
     this.getMessage();
   },
 };
 </script>
+<style>
+.fade-enter,
+.fade-leave-active {
+  opacity: 0;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+</style>

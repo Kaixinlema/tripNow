@@ -7,9 +7,16 @@
                         <div class="headIcon" @click="$router.push('/')">
                         </div>
                     </el-col>
-                    <el-col :span="12" style="text-align: right;">
-                        <el-button type="danger" plain>用户名</el-button>
-                        <el-button type="danger" plain>退出登录</el-button>
+                   <el-col v-if="username == ''" span="12" style="text-align: right;">
+                        <el-button type="danger" @click="toLogin"> 登录 </el-button>
+                        <el-button type="danger" @click="toRegister">注册</el-button>
+                    </el-col>
+                    <el-col v-else span="12" style="text-align: right;">
+                        <el-a style="color:grey; font-size:20px; margin-right: 20px;">
+                            <i class="el-icon-user-solid"></i>
+                            <b> {{username}} </b>
+                        </el-a>
+                        <el-button type="text" icon="el-icon-switch-button" @click="logout" plain>退出登录</el-button>
                     </el-col>
                 </el-row>
             </el-header>
@@ -21,27 +28,23 @@
                         id="labelColor">
                         <el-form-item label="标签" prop="interest">
                             <el-select v-model="planForm.interest" multiple placeholder="请选择">
-                                <el-option :label="'城市观光'" value="cityScene"></el-option>
-                                <el-option :label="'澳门景点'" value="macauSpot"></el-option>
-                                <el-option :label="'历史人文'" value="hisCulture"></el-option>
-                                <el-option :label="'主题公园'" value="amusePark"></el-option>
-                                <el-option :label="'自然风光'" value="naturalSight"></el-option>
+                                <el-option :label="'城市观光'" value=1></el-option>
+                                <el-option :label="'澳门景点'" value=2></el-option>
+                                <el-option :label="'历史人文'" value=3></el-option>
+                                <el-option :label="'主题公园'" value=4></el-option>
+                                <el-option :label="'自然风光'" value=5></el-option>
                             </el-select>
                         </el-form-item>
                         <el-form-item label="预计人数" prop="number">
-                            <el-radio-group v-model="planForm.number" @change="printValue">
-                                <el-radio :label="'1'">一人游</el-radio>
-                                <el-radio :label="'2'">双人游</el-radio>
-                                <el-radio :label="'3'">三人行</el-radio>
-                                <el-radio :label="'4'">其他</el-radio>
-                            </el-radio-group>
-                            <el-input v-model="planForm.otherNumber" v-if="planForm.number == '4'"
-                                style="width:120px; margin-left: 10px;" placeholder="请输入内容">
-                            </el-input>
+                            <el-input v-model="planForm.number" placeholder="请输入内容"> </el-input>
                         </el-form-item>
                         <el-form-item>
                             <el-button type="primary" @click="submitForm('planForm')">提交</el-button>
                         </el-form-item>
+                         <el-form-item>
+                           <p>{{msg}}</p>
+                        </el-form-item>
+                        
                     </el-form>
                 </div>
             </el-main>
@@ -54,16 +57,10 @@
         name: "Plan",
         data() {
             var vNumber = (rule, value, callback) => {
-                if (value == '4') {
-                    if (this.planForm.otherNumber == '') {
-                        callback(new Error('请决定出行人数！'))
-                    } else {
-                        if (!(/^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/).test(this.planForm.otherNumber)) {
-                            callback(new Error('请输入数字值'))
-                        } else {
-                            callback()
-                        }
-                    }
+                if (!(/^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/).test(value)) {
+                    callback(new Error('请输入数字值'))
+                } else if(value < 1 || value > 10) {
+                    callback(new Error('人数限制：1-10！'))
                 } else {
                     callback()
                 }
@@ -73,7 +70,6 @@
                 planForm: {
                     interest: [],
                     number: '',
-                    otherNumber: '',
                 },
                 rules: {
                     interest: [
@@ -85,11 +81,16 @@
                     ],
 
                 },
-            }
+                username: '',
+                msg: '',
+            };
         },
         methods: {
             toRegister() {
                 this.$router.push("register");
+            },
+            toLogin() {
+                this.$router.push("login");
             },
             toIndex() {
                 this.$router.push("/");
@@ -97,16 +98,34 @@
             printValue() {
                 console.log(this.planForm.number);
             },
+            logout() {
+                sessionStorage.removeItem("accessToken")
+                this.$message.success("Logout Successful");
+                this.reload();
+            },
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        alert('submit!');
+                      this.$message.success("为您推荐以下景点：）")
+                        this.$router.push({
+                            name: 'choice', 
+                            params: {
+                                labels: this.planForm.interest,
+                                number: this.planForm.number,
+                            }
+                        });
                     } else {
                         console.log('error submit!!');
                         return false;
                     }
                 });
             },
+        },
+        created() {
+            let curr_user = sessionStorage.getItem('accessToken')
+            if (curr_user) {
+                this.username = JSON.parse(curr_user)
+            }
         }
     };
 </script>
