@@ -3,6 +3,25 @@ from trip import app, db
 from sqlalchemy import Column, String
 from sqlalchemy.orm import sessionmaker
 
+class Hotel(db.Model):
+    __tablename__ = "hotel_recommend"
+    hotel_id = db.Column(db.Integer,primary_key=True,nullable=False)
+    attraction_id = db.Column(db.Integer)
+    name = db.Column(db.String(20))
+    address = db.Column(db.Text)
+    distance = db.Column(db.Integer)
+    detail_url = db.Column(db.Text)
+
+    def to_json(self):
+        return{
+            'attraction_id': self.attraction_id, 
+            'name': self.name,
+            'address': self.address,
+            'distance': self.distance,
+            'detail_url': self.detail_url,
+        }
+
+
 class Rule(db.Model):
     __tablename__ = "association_rule"
     rule_id = db.Column(db.Integer,primary_key=True,nullable=False)

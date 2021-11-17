@@ -11,10 +11,12 @@ import json, re
 def index():
     return app.send_static_file('index.html')
 
+
 # route for ping.vue
 @app.route('/api/ping', methods=['GET'])
 def ping_pong():
     return jsonify('pong!')
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -31,7 +33,7 @@ def login():
         return jsonify({'status':'no','info':'登录失败'})
     return jsonify({'status':'no','info':'登录失败'})
 
-
+# route for register
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -51,29 +53,42 @@ def register():
             return jsonify({'status':'ok','info':'注册成功'})
     return jsonify({'status':'no','info':'注册失败！'})
 
+# route for choice
 @app.route('/choice',methods=['GET', 'POST'])
 def get_route():
     interest = request.json.get('choices')
-    print(interest)
     attraction_names = []
+
     for item in interest:
         tmp = db.session.query(Attraction).filter(Attraction.id==item).first()
         name = tmp.to_json()['attraction_name']
         attraction_names.append(name)
+
     consequent_result = []
     for item in interest:
         rules = db.session.query(Rule).filter(Rule.antecents.contains(str(item))).first()
         if (rules):
             consequent_id = rules.to_json()['consequents']
-            print(consequent_id)
             consequent_id_todigit = (re.findall('\d+', consequent_id))
             for attraction in consequent_id_todigit:
                 if int(attraction) not in interest:
                     consequent_result.append(int(attraction))
-    route_result = get_routes(attraction_names, len(attraction_names))
-    print(route_result)
+    route = get_routes(attraction_names, len(attraction_names))
+    route_result = []
+    for poi in route:
+        info = db.session.query(Attraction).filter(Attraction.attraction_name==poi).first().to_json()
+        route_result.append(info)
     return jsonify({'recommend': consequent_result,
                     'route': route_result})
+
+@app.route('/hotels', methods=['GET', 'POST'])
+def get_hotel():
+    attraction_id = request.json.get('attraction_id')
+    res = db.session.query(Hotel).filter(Hotel.attraction_id==attraction_id).all()
+    result = []
+    for hotel in res:
+        result.append(hotel.to_json())
+    return jsonify(data=result)
 
 
 @app.route('/users',methods=['GET', 'POST'])
