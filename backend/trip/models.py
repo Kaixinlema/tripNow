@@ -1,5 +1,5 @@
 from flask_login.mixins import UserMixin
-from trip import app, db
+from trip import db
 from sqlalchemy import Column, String
 from sqlalchemy.orm import sessionmaker
 
