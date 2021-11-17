@@ -28,8 +28,14 @@
                                                 <el-card
                                                     :body-style="{ padding: '10px', margin: '10px', height: '400px'}">
                                                     <el-scrollbar>
-                                                        <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-                                                            class="image">
+                                                        <el-carousel height="180px" width="320px">
+                                                            <el-carousel-item
+                                                                v-for=" (index) in imgGroup.slice((item.index-1)*4, (item.index)*4)"
+                                                                :key="index">
+                                                                <img :src="index" class="image"
+                                                                    style="width:320px; height: 180px">
+                                                            </el-carousel-item>
+                                                        </el-carousel>
                                                         <div style="padding: 14px;">
                                                             <span style="font-size: 20px;">{{item.name}}</span>
                                                             <div style="float: right; display: inline;">
@@ -78,6 +84,14 @@
 </template>
 
 <script>
+    const _ = require("lodash")
+    const frames = []
+    _.times(64, v => {
+        frames.push(require(`../assets/attractImg/${v}.jpeg`))
+    })
+
+    console.log(frames)
+
     export default {
         name: "Choice",
         data() {
@@ -98,6 +112,7 @@
                     { value: 'cityScene', name: '城市观光' },
                     { value: 'extraRec', name: '相关推荐' },
                 ],
+                imgGroup: frames,
             }
         },
         methods: {
@@ -196,6 +211,22 @@
         width: 50%;
         display: block;
         margin: auto;
+    }
+
+    .el-carousel__item h3 {
+        color: #475669;
+        font-size: 14px;
+        opacity: 0.75;
+        line-height: 180px;
+        margin: 0;
+    }
+
+    .el-carousel__item:nth-child(2n) {
+        background-color: #99a9bf;
+    }
+
+    .el-carousel__item:nth-child(2n+1) {
+        background-color: #d3dce6;
     }
 
     .clearfix:before,

@@ -10,7 +10,6 @@ import Ping from '../components/Ping'
 import Plan from '../components/Plan'
 import Choice from '../components/Choice'
 import Result from '../components/Result'
-import Try from '../components/Try'
 Vue.use(Router)
 
 export default new Router({
