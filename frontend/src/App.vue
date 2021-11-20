@@ -6,6 +6,8 @@
 </template>
 
 <script>
+import { MP } from '../map.js'    //引入上面创建的map.js文件
+
   import Footer from '@/components/Footer.vue'
 
   export default {
@@ -17,8 +19,12 @@
   },
   data(){
     return{
-      isRouterAlive:true
+      isRouterAlive:true,
+      ak: "nGv0mHXo2BGuNmN4s7nazQSSBnZs4PGQ",
     }
+  },
+  async mounted(){
+      await MP(this.ak);
   },
     components: {
       Footer,

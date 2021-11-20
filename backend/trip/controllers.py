@@ -90,33 +90,46 @@ def get_routes(attraction_names, num):
             'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Safari/537.36'}
 
     num = int(num)
-    a = {}
-    for i in range(1, num+1):
-        m = i
-        a[i] = str(attraction_names[i-1])
+    a = []
+    for i in range(0, num):
+        a.append(str(attraction_names[i-1]))
+    
+    location = [[0 for i in range(2)] for i in range(num)]
+    for k in range(0,num):
+        url = "http://restapi.amap.com/v3/place/text?key=a5bdc752b8e54575e6bd2b9d5aad7575&keywords=%s&types=&city=珠海&output=json" % (a[k])
+        data = requests.get(url, headers=head)
+        data.encoding = 'utf-8'
+        data = data.text
+        pat = 'location":"(.*?),(.*?)",".*?ddress'
+        result = re.findall(pat, data)
+        location[k][0] = result[0][0]
+        location[k][1] = result[0][1]
 
-    for i in range(1, num+1):
+
+    
+
+    for i in range(0, num):
         list = []  # 列表存储中间的距离/时间
-        for m in range(1, num+1):
-            url1 = "http://restapi.amap.com/v3/place/text?key=a5bdc752b8e54575e6bd2b9d5aad7575&keywords=%s&types=&city=珠海&output=json" % (a[i])
-            data1 = requests.get(url1, headers=head)
-            data1.encoding = 'utf-8'
-            data1 = data1.text
-            pat1 = 'location":"(.*?),(.*?)",".*?ddress'
-            result1 = re.findall(pat1, data1)
-            
+        for m in range(0, num):
+            # url1 = "http://restapi.amap.com/v3/place/text?key=a5bdc752b8e54575e6bd2b9d5aad7575&keywords=%s&types=&city=珠海&output=json" % (a[i])
+            # data1 = requests.get(url1, headers=head)
+            # data1.encoding = 'utf-8'
+            # data1 = data1.text
+            # pat1 = 'location":"(.*?),(.*?)",".*?ddress'
+            # result1 = re.findall(pat1, data1)
+            # print("result1:" + result1[0][0])
 
-            url2 = "http://restapi.amap.com/v3/place/text?key=a5bdc752b8e54575e6bd2b9d5aad7575&keywords=" + a[m]\
-                + "&types=&city=珠海&children=1&offset=1&page=1&extensions=all"
-            data2 = requests.get(url2, headers=head)
-            data2.encoding = 'utf-8'
-            data2 = data2.text
-            result2 = re.findall(pat1, data2)
-            print(result2)
+            # url2 = "http://restapi.amap.com/v3/place/text?key=a5bdc752b8e54575e6bd2b9d5aad7575&keywords=" + a[m]\
+            #     + "&types=&city=珠海&children=1&offset=1&page=1&extensions=all"
+            # data2 = requests.get(url2, headers=head)
+            # data2.encoding = 'utf-8'
+            # data2 = data2.text
+            # result2 = re.findall(pat1, data2)
+            # print("result2:" + result2[0][0])
 
             url3 = "http://restapi.amap.com/v3/distance?key=a5bdc752b8e54575e6bd2b9d5aad7575&origins=" +\
-                str(result1[0][0]) + "," + str(result1[0][1]) + "&destination=" + str(result2[0][0]) + "," +\
-                str(result2[0][1])+"&type=1"
+                str(location[i][0]) + "," + str(location[i][1]) + "&destination=" + str(location[m][0]) + "," +\
+                str(location[m][1])+"&type=1"
             data3 = requests.get(url3, headers=head)
             data3.encoding = 'utf-8'
             data3 = data3.text
@@ -130,8 +143,8 @@ def get_routes(attraction_names, num):
 
     distance, path = dijkstra(graph_list, 0)  # 查找从源点0开始带其他节点的最短路径 
 
-    time = 0
     result = []
     for key in path[0]:
-        result.append(a[key+1])
+        if a[key] not in result:
+            result.append(a[key])
     return result

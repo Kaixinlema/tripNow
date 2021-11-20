@@ -11,9 +11,11 @@
   },
   "dependencies": {
     "axios": "^0.24.0",
+    "element-china-area-data": "^5.0.2",
     "element-ui": "^2.15.6",
     "vue": "^2.5.2",
     "vue-axios": "^3.4.0",
+    "vue-baidu-map": "^0.21.22",
     "vue-router": "^3.0.1"
   },
   "devDependencies": {

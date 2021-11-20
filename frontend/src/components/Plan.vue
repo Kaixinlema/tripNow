@@ -7,11 +7,11 @@
                         <div class="headIcon" @click="$router.push('/')">
                         </div>
                     </el-col>
-                   <el-col v-if="username == ''" span="12" style="text-align: right;">
+                   <el-col v-if="username == ''" :span="12" style="text-align: right;">
                         <el-button type="danger" @click="toLogin"> 登录 </el-button>
                         <el-button type="danger" @click="toRegister">注册</el-button>
                     </el-col>
-                    <el-col v-else span="12" style="text-align: right;">
+                    <el-col v-else :span="12" style="text-align: right;">
                         <el-a style="color:grey; font-size:20px; margin-right: 20px;">
                             <i class="el-icon-user-solid"></i>
                             <b> {{username}} </b>
@@ -24,7 +24,8 @@
                 <div class="formSet">
                     <h3>TripNow旅行计划定制</h3>
                     <el-divider></el-divider>
-                    <el-form :model="planForm" :rules="rules" status-icon ref="planForm" class="demo-planForm">
+                    <el-form :model="planForm" :rules="rules" status-icon ref="planForm" class="demo-planForm"
+                        id="labelColor">
                         <el-form-item label="标签" prop="interest">
                             <el-select v-model="planForm.interest" multiple placeholder="请选择">
                                 <el-option :label="'城市观光'" value=1></el-option>
@@ -33,6 +34,13 @@
                                 <el-option :label="'主题公园'" value=4></el-option>
                                 <el-option :label="'自然风光'" value=5></el-option>
                             </el-select>
+                        </el-form-item>
+                         <el-form-item label="酒店选择" prop="hotelChoice">
+                            <el-radio-group v-model="planForm.hotelChoice">
+                                <el-radio :label="1" value=1>经济型</el-radio>
+                                <el-radio :label="2" value=2>舒适型</el-radio>
+                                <el-radio :label='3' value=3>高档型</el-radio>
+                            </el-radio-group>
                         </el-form-item>
                         <el-form-item label="预计人数" prop="number">
                             <el-input v-model="planForm.number" placeholder="请输入内容"> </el-input>
@@ -69,6 +77,7 @@
                 planForm: {
                     interest: [],
                     number: '',
+                    hotelChoice: '',
                 },
                 rules: {
                     interest: [
@@ -77,6 +86,9 @@
                     number: [
                         { required: true, message: '请决定出行人数', trigger: 'change' },
                         { validator: vNumber, trigger: 'blur' },
+                    ],
+                     hotelChoice: [
+                        { required: true, message: '请决定心仪酒店类型', trigger: 'change' },
                     ],
 
                 },
@@ -111,6 +123,7 @@
                             params: {
                                 labels: this.planForm.interest,
                                 number: this.planForm.number,
+                                type: this.planForm.hotelChoice,
                             }
                         });
                     } else {
@@ -138,15 +151,27 @@
     }
 
     .el-main {
-        background-color: #E9EEF3;
+        background-image: url(../assets/ZHimg/night.jpg);
+        background-size: cover;
         color: #333;
         text-align: center;
         line-height: 40px;
+        padding-top: 100px;
+        padding-bottom: 100px;
+    }
+
+    .el-divider {
+        background-color: #ffffff;
+    }
+
+    #labelColor>>>.el-form-item__label {
+        color: #000000;
+        font-size: 14px;
     }
 
     .formSet {
-        width: 300px;
-        background-color: #ffffff;
+        width: 600px;
+        background-color: rgb(255, 255, 255, 0.8);
         border-radius: 5px;
         margin: auto;
         padding: 20px;

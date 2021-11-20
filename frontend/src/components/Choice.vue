@@ -7,14 +7,14 @@
             <el-header style=" line-height: 60px;">
                 <el-row>
                     <el-col :span="12" style="text-align: left;">
-                        <el-button type="plain">图标</el-button>
-                        <el-button type="plain" @click="toIndex">首页</el-button>
+                        <div class="headIcon" @click="$router.push('/')">
+                        </div>
                     </el-col>
-                    <el-col v-if="username == ''" span="12" style="text-align: right;">
+                    <el-col v-if="username == ''" :span="12" style="text-align: right;">
                         <el-button type="danger" @click="toLogin"> 登录 </el-button>
                         <el-button type="danger" @click="toRegister">注册</el-button>
                     </el-col>
-                    <el-col v-else span="12" style="text-align: right;">
+                    <el-col v-else :span="12" style="text-align: right;">
                         <el-a style="color:grey; font-size:20px; margin-right: 20px;">
                             <i class="el-icon-user-solid"></i>
                             <b> {{username}} </b>
@@ -24,50 +24,52 @@
                 </el-row>
             </el-header>
             <el-main>
-
-                <div class="formSet">
-                    <h3>选择详细景点</h3>
-                    <el-divider></el-divider>
-                    <el-form :model="choiceForm" ref="choiceForm">
-                        <el-row>
-                            <el-col :span="20">
-                                <el-tabs :tab-position="'left'" style="height: 100%;">
-                                    <el-tab-pane :model="labels" v-for="(labelIndex) in labels"
-                                        :key="labelIndex" :label="allLabels[labelIndex-1].name">
-                                        <el-row>
-                                            <el-col :span="12" :model="items" v-for="(item) in items" :key="item.index">
-                                                <div v-if="item.itsLabel == labelIndex" style="margin: 10px;">
-                                                    <el-card
-                                                        :body-style="{ padding: '10px', margin: '10px', height: '400px'}">
-                                                        <el-scrollbar>
-                                                            <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-                                                                class="image">
-                                                            <div style="padding: 14px;">
-                                                                <span style="font-size: 20px;">{{item.name}}</span>
-                                                                <div style="float: right; display: inline;">
-                                                                    <el-checkbox label="我想去" :border="true"
-                                                                        :model="item.ifSelected" size="medium"
-                                                                        @change="changeInfo(item.index)">
-                                                                    </el-checkbox>
-                                                                </div>
-                                                                <el-divider></el-divider>
-                                                                <span style="text-align: left;">{{item.message}}</span>
-                                                                <div class="bottom clearfix">
-                                                                </div>
+                <h3>选择详细景点</h3>
+                <el-divider></el-divider>
+                <el-form :model="choiceForm" ref="choiceForm">
+                    <el-row>
+                        <el-col :span="20">
+                            <el-tabs :tab-position="'left'" style="height: 100%;">
+                                <el-tab-pane :model="labels" v-for="(labelIndex) in labels"
+                                    :key="labelIndex" :label="allLabels[labelIndex-1].name">
+                                    <el-row>
+                                        <el-col :span="12" :model="items" v-for="(item) in items" :key="item.index">
+                                            <div v-if="item.itsLabel == labelIndex" style="margin: 10px;">
+                                                <el-card
+                                                    :body-style="{ padding: '10px', margin: '10px', height: '400px'}">
+                                                    <el-scrollbar>
+                                                        <el-carousel height="180px" width="320px">
+                                                            <el-carousel-item
+                                                                v-for=" (index) in imgGroup.slice((item.index)*4, (item.index+1)*4)"
+                                                                :key="index">
+                                                                <img :src="index" class="image"
+                                                                    style="width:320px; height: 180px">
+                                                            </el-carousel-item>
+                                                        </el-carousel>
+                                                        <div style="padding: 14px;">
+                                                            <span style="font-size: 20px;">{{item.name}}</span>
+                                                            <div style="float: right; display: inline;">
+                                                                <el-checkbox label="我想去" :border="true"
+                                                                    :model="item.ifSelected" size="medium"
+                                                                    @change="changeInfo(item.index)">
+                                                                </el-checkbox>
                                                             </div>
-                                                        </el-scrollbar>
-                                                    </el-card>
-                                                </div>
-                                            </el-col>
-                                        </el-row>
-                        
-
-                                    </el-tab-pane>
-                                </el-tabs>
-                            </el-col>
-                            <el-col :span="4">
-                                <el-card>
-                                    <h4>已选择景点</h4>
+                                                            <el-divider></el-divider>
+                                                            <span style="text-align: left;">{{item.message}}</span>
+                                                            <div class="bottom clearfix">
+                                                            </div>
+                                                        </div>
+                                                    </el-scrollbar>
+                                                </el-card>
+                                            </div>
+                                        </el-col>
+                                    </el-row>
+                                </el-tab-pane>
+                            </el-tabs>
+                        </el-col>
+                        <el-col :span="4">
+                            <el-card>
+                                <h4>已选择景点</h4>
                                 <el-divider></el-divider>
                                 <div v-if="choiceForm.finalChoice.length > 0" class="emptySet">
                                     <div v-for="index in choiceForm.finalChoice">
@@ -77,23 +79,28 @@
                                 <div v-else="choiceForm.finalChoice.length == 0" class="emptySet">
                                     <span>暂无数据</span></span>
                                 </div>
-
-                                    <div style="text-align: center;">
-                                        <el-form-item>
-                                            <el-button type="primary" @click.prevent="submitForm('choiceForm')">提交</el-button>
-                                        </el-form-item>
-                                    </div>
-                                </el-card>
-                            </el-col>
-                        </el-row>
-                    </el-form>
-                </div>
+                                <div style="text-align: center;">
+                                    <el-form-item>
+                                        <el-button type="primary" @click.prevent="submitForm()">提交</el-button>
+                                    </el-form-item>
+                                </div>
+                            </el-card>
+                        </el-col>
+                    </el-row>
+                </el-form>
             </el-main>
         </el-container>
     </div>
 </template>
 
 <script>
+    const _ = require("lodash")
+    const frames = []
+    _.times(64, v => {
+        frames.push(require(`../assets/attractImg/${v}.jpeg`))
+    })
+
+    console.log(frames)
 import axios from 'axios';
 import Loading from '../components/loading'
 
@@ -168,14 +175,22 @@ import Loading from '../components/loading'
                 number: '',
                 username: '',
                 isLoading: false,
+                imgGroup: frames,
+                macau: 0,
+                type:'',
             }
         },
         methods: {
-            toRegister() {
-                this.$router.push("register");
-            },
             toLogin() {
-                this.$router.push("login");
+                this.$router.push("/login");
+            },
+            toRegister() {
+                this.$router.push("/register");
+            },
+            logout() {
+                sessionStorage.removeItem("accessToken")
+                this.$message.success("Logout Successful");
+                this.reload();
             },
             toIndex() {
                 this.$router.push("/");
@@ -199,19 +214,29 @@ import Loading from '../components/loading'
                 const path = 'http://127.0.0.1:5000/choice';
                 let formData = new FormData;
                 formData.append("choice", this.choiceForm.finalChoice);
+                if (this.items[13].ifSelected || this.items[14].ifSelected || this.items[15].ifSelected){
+                    this.macau = 1;
+                }
                 this.isLoading = true;
                 // console.log(formData.get("choice"));
                 axios.post(path,{
                     choices: this.choiceForm.finalChoice, 
+                    type: this.type,
                 }).then((res)=>{
-                    console.log(res.data);
+                    console.log(res.data.day);
                     this.isLoading = false;
                     this.$message.success("为您推荐以下路线：）")
                     this.$router.push({
-                        name: 'plan', 
+                        name: 'routes', 
                         params: {
-                            route: res.data,
-                            number: this.number
+                            routes: res.data.route,
+                            recommends: res.data.recommend,
+                            days: res.data.day,
+                            hotels: res.data.hotel,
+                            numofday: res.data.numofday,
+                            macau: this.macau,
+                            type: this.type,
+                            cost: res.data.cost,
                         }
                     })
 
@@ -222,9 +247,10 @@ import Loading from '../components/loading'
         created() {
             this.labels = this.$route.params.labels;
             this.number = this.$route.params.number;
+            this.type = this.$route.params.type;
             let curr_user = sessionStorage.getItem('accessToken')
             if (curr_user) {
-                this.username = JSON.parse(curr_user)
+                this.username = JSON.parse(curr_user);
             }
         }
     }
@@ -247,8 +273,9 @@ import Loading from '../components/loading'
     }
 
     .el-main {
-        background-color: #E9EEF3;
+        background-color: white;
         color: #333;
+        padding: 0px 20px 60px 40px;
     }
 
     .el-card .el-scrollbar {
@@ -260,17 +287,23 @@ import Loading from '../components/loading'
         overflow-x: hidden;
     }
 
-    .formSet {
-        width: 90%;
-        background-color: #ffffff;
-        border-radius: 5px;
-        margin: auto;
-        padding: 20px;
+    .headIcon {
+        width: 150px;
+        height: 60px;
+        background-image: url(../assets/ZHimg/icon-black.png);
+        background-size: cover;
     }
 
     .setCard {
         width: 400px;
         margin: 10px;
+    }
+
+    .emptySet {
+        text-align: center;
+        font-size: 15px;
+        font-family: Arial, Helvetica, sans-serif;
+        margin-bottom: 15px;
     }
 
     .time {
@@ -287,6 +320,22 @@ import Loading from '../components/loading'
         width: 50%;
         display: block;
         margin: auto;
+    }
+
+    .el-carousel__item h3 {
+        color: #475669;
+        font-size: 14px;
+        opacity: 0.75;
+        line-height: 180px;
+        margin: 0;
+    }
+
+    .el-carousel__item:nth-child(2n) {
+        background-color: #99a9bf;
+    }
+
+    .el-carousel__item:nth-child(2n+1) {
+        background-color: #d3dce6;
     }
 
     .clearfix:before,

@@ -7,20 +7,21 @@ class Hotel(db.Model):
     __tablename__ = "hotel_recommend"
     hotel_id = db.Column(db.Integer,primary_key=True,nullable=False)
     attraction_id = db.Column(db.Integer)
-    name = db.Column(db.String(20))
-    address = db.Column(db.Text)
-    distance = db.Column(db.Integer)
-    detail_url = db.Column(db.Text)
+    type = db.Column(db.Integer)
+    name = db.Column(db.String(30))
+    score = db.Column(db.Float)
+    price = db.Column(db.Integer)
+    distance = db.Column(db.String(10))
 
     def to_json(self):
         return{
             'attraction_id': self.attraction_id, 
+            'type': self.type, 
             'name': self.name,
-            'address': self.address,
+            'score': self.score,
+            'price': self.price,
             'distance': self.distance,
-            'detail_url': self.detail_url,
         }
-
 
 class Rule(db.Model):
     __tablename__ = "association_rule"
@@ -54,8 +55,9 @@ class Attraction(db.Model):
     attraction_label = db.Column(db.Integer,nullable=False)
     attraction_lng = db.Column(db.Float,nullable=False)
     attraction_lat = db.Column(db.Float,nullable=False)
-    attraction_detail = db.Column(db.Text,nullable=False)
-
+    attraction_time = db.Column(db.Integer)
+    attraction_cost = db.Column(db.Integer)
+    attraction_detail = db.Column(db.Text)
     def to_json(self):
         return {
             'id': self.id,
@@ -63,7 +65,9 @@ class Attraction(db.Model):
             'attraction_label': self.attraction_label,
             'attraction_lng': self.attraction_lng,
             'attraction_lat': self.attraction_lat,
-            'attraction_detail': self.attraction_detail
+            'attraction_time': self.attraction_time,
+            'attraction_cost': self.attraction_cost,
+            'attraction_detail': self.attraction_detail,
         }
     def basic_to_json(self):
         return {
