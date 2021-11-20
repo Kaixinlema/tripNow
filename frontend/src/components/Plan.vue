@@ -7,7 +7,7 @@
                         <div class="headIcon" @click="$router.push('/')">
                         </div>
                     </el-col>
-                   <el-col v-if="username == ''" span="12" style="text-align: right;">
+                    <el-col v-if="username == ''" span="12" style="text-align: right;">
                         <el-button type="danger" @click="toLogin"> 登录 </el-button>
                         <el-button type="danger" @click="toRegister">注册</el-button>
                     </el-col>
@@ -35,16 +35,24 @@
                                 <el-option :label="'自然风光'" value=5></el-option>
                             </el-select>
                         </el-form-item>
+                        <!-- 表单选项: 酒店类型选择 -->
+                        <el-form-item label="酒店选择" prop="hotelChoice">
+                            <el-radio-group v-model="planForm.hotelChoice">
+                                <el-radio :label="1">经济型</el-radio>
+                                <el-radio :label="2">舒适型</el-radio>
+                                <el-radio :label="3">高档型</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
                         <el-form-item label="预计人数" prop="number">
                             <el-input v-model="planForm.number" placeholder="请输入内容"> </el-input>
                         </el-form-item>
                         <el-form-item>
                             <el-button type="primary" @click="submitForm('planForm')">提交</el-button>
                         </el-form-item>
-                         <el-form-item>
-                           <p>{{msg}}</p>
+                        <el-form-item>
+                            <p>{{msg}}</p>
                         </el-form-item>
-                        
+
                     </el-form>
                 </div>
             </el-main>
@@ -59,7 +67,7 @@
             var vNumber = (rule, value, callback) => {
                 if (!(/^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/).test(value)) {
                     callback(new Error('请输入数字值'))
-                } else if(value < 1 || value > 10) {
+                } else if (value < 1 || value > 10) {
                     callback(new Error('人数限制：1-10！'))
                 } else {
                     callback()
@@ -70,6 +78,8 @@
                 planForm: {
                     interest: [],
                     number: '',
+                    // 初始化酒店选项
+                    hotelChoice: '',
                 },
                 rules: {
                     interest: [
@@ -79,7 +89,10 @@
                         { required: true, message: '请决定出行人数', trigger: 'change' },
                         { validator: vNumber, trigger: 'blur' },
                     ],
-
+                    // 添加酒店选项的rules
+                    hotelChoice: [
+                        { required: true, message: '请决定心仪酒店类型', trigger: 'change' },
+                    ],
                 },
                 username: '',
                 msg: '',
@@ -106,9 +119,9 @@
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                      this.$message.success("为您推荐以下景点：）")
+                        this.$message.success("为您推荐以下景点：）")
                         this.$router.push({
-                            name: 'choice', 
+                            name: 'choice',
                             params: {
                                 labels: this.planForm.interest,
                                 number: this.planForm.number,

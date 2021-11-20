@@ -11,7 +11,7 @@
                         <el-button type="danger" @click="toLogin"> 登录 </el-button>
                         <el-button type="danger" @click="toRegister">注册</el-button>
                     </el-col>
-                    <el-col v-else span="12" style="text-align: right;">
+                    <el-col v-else :span="12" style="text-align: right;">
                         <el-a style="color:grey; font-size:20px; margin-right: 20px;">
                             <i class="el-icon-user-solid"></i>
                             <b> {{username}} </b>

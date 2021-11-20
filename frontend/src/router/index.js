@@ -9,7 +9,8 @@ import Register from '../components/Register'
 import Ping from '../components/Ping'
 import Plan from '../components/Plan'
 import Choice from '../components/Choice'
-import Result from '../components/Result'
+import Routes from '../components/Routes'
+
 Vue.use(Router)
 
 export default new Router({
@@ -52,12 +53,8 @@ export default new Router({
       component: Choice,
     },
     {
-      path: '/result',
-      component: Result,
-    },
-    {
-      path: '/try',
-      component: Try,
+      path: '/routes',
+      component: Routes,
     },
   ]
 })

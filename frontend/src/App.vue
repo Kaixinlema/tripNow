@@ -6,30 +6,35 @@
 </template>
 
 <script>
+  import { MP } from '../map.js'    //引入上面创建的map.js文
   import Footer from '@/components/Footer.vue'
 
   export default {
     name: "App",
-    provide(){
-    return{
-      reload:this.reload
-    }
-  },
-  data(){
-    return{
-      isRouterAlive:true
-    }
-  },
+    provide() {
+      return {
+        reload: this.reload
+      }
+    },
+    data() {
+      return {
+        isRouterAlive: true,
+        ak: "jlnHI6x5SZThWTypYnt34P9G5mGnq4HV",
+      }
+    },
+    async mounted() {
+      await MP(this.ak);
+    },
     components: {
       Footer,
     },
-    methods:{
-       reload (){
-       this.isRouterAlive = false
-       this.$nextTick(function(){
+    methods: {
+      reload() {
+        this.isRouterAlive = false
+        this.$nextTick(function () {
           this.isRouterAlive = true
-       })
-    }
+        })
+      }
     }
   };
 </script>
