@@ -10,7 +10,7 @@
                 </el-row>
             </el-header>
             <el-main>
-                <el-row gutter="20">
+                <el-row :gutter="20">
                     <el-col :span="12">
                         <div class="iconSet">
                         </div>
