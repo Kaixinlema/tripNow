@@ -190,7 +190,7 @@ import Loading from '../components/loading'
             logout() {
                 sessionStorage.removeItem("accessToken")
                 this.$message.success("Logout Successful");
-                this.reload();
+                this.$router.push("/");
             },
             toIndex() {
                 this.$router.push("/");

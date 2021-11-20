@@ -112,7 +112,7 @@
             logout() {
                 sessionStorage.removeItem("accessToken")
                 this.$message.success("Logout Successful");
-                this.reload();
+                this.$router.push("/");
             },
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {

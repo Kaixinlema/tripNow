@@ -46,7 +46,7 @@
                                         <span v-for="aRoute in this.route">{{ aRoute["attraction_name"] }} </span>
                                 </el-row>
                                 <el-row style="padding: 5px;">
-                                    <el-tag type="danger" style="font-size: 12px; font-weight:bold;">推荐酒店</el-tag>
+                                    <el-tag type="danger" style="font-size: 12px; font-weight:bold;">推荐居住酒店</el-tag>
                                         <span v-for="hotel in this.hotels">{{ hotel["name"] }} </span>
                                 </el-row>
                                 <el-row style="padding: 5px;">
@@ -290,7 +290,7 @@
             logout() {
                 sessionStorage.removeItem("accessToken")
                 this.$message.success("Logout Successful");
-                this.reload();
+                this.$router.push("/");
             },
             changeInfo(e) {
                 console.log(e);
