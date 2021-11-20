@@ -10,9 +10,6 @@ from flask_login import LoginManager, login_manager
 app = Flask(__name__)
 
 
-
-
-
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['SQLALCHEMY_COMMIT_TEARDOWN'] = True
 app.config['SECRET_KEY'] = '5e85752d580a74b6f80231020d3f2e95'
@@ -30,9 +27,9 @@ app.config.from_object(__name__)
 # 跨域请求
 CORS(app, resources={r'/*': {'origins': '*'}})
 
-login_manager = LoginManager(app)
-login_manager.init_app(app)
-login_manager.login_view = 'login'
+# login_manager = LoginManager(app)
+# login_manager.init_app(app)
+# login_manager.login_view = 'login'
 
 from trip import routes
 

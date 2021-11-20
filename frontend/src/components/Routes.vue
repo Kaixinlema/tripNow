@@ -124,7 +124,7 @@
                                                 </el-checkbox>
                                             </div>
                                             <el-divider></el-divider>
-                                            <span style="text-align: left;">{{items[idx].message}}</span>
+                                            <span style="text-align: left; ">{{items[idx].message}}</span>
                                             <div class="bottom clearfix">
                                             </div>
                                         </div>
@@ -409,14 +409,13 @@
         width: 33%;
         display: inline-block;
     }
-
+    
     .showResult {
         font-size: 14px;
     }
 
     .el-card .el-scrollbar {
         height: 100%;
-
     }
 
     .el-card .el-scrollbar__wrap {

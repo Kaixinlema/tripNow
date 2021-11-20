@@ -25,7 +25,7 @@ def login():
         res = User_query(phone,password)
         if res is not None:
             test_admin_user = CalendarAdmin(phone)
-            login_user(test_admin_user)
+            #login_user(test_admin_user)
             session['uid'] = res.id
             name = res.user_name
             return jsonify({'status':'ok','info':'%s登录成功'%name,'session':name})
@@ -55,18 +55,22 @@ def register():
 # route for make the plan
 @app.route('/choice',methods=['GET', 'POST'])
 def get_route():
-    interest = request.json.get('choices')
+    raw_interest = request.json.get('choices')
     type = request.json.get('type')
     print(type)
     attraction_names = []
     price = 0
 
+    interest = []
+    for i in raw_interest:
+        if isinstance(i, int):
+            interest.append(i)
+        else: 
+            interest.append(i["id"])
+    
     # get the name of the selected attractions
     for item in interest:
-        if isinstance(item, int):
-            tmp = db.session.query(Attraction).filter(Attraction.id==item).first()
-        else:
-            tmp = db.session.query(Attraction).filter(Attraction.id==item["id"]).first()
+        tmp = db.session.query(Attraction).filter(Attraction.id==item).first()
         name = tmp.to_json()['attraction_name']
         price += tmp.to_json()['attraction_cost']
         attraction_names.append(name)
@@ -74,10 +78,7 @@ def get_route():
     # get the recommended attractions
     consequent_result = []
     for item in interest:
-        if isinstance(item, int):
-            rules = db.session.query(Rule).filter(Rule.antecents.contains(str(item))).first()
-        else:
-            rules = db.session.query(Rule).filter(Rule.antecents.contains(str(item["id"]))).first()
+        rules = db.session.query(Rule).filter(Rule.antecents.contains(str(item))).first()
         if (rules):
             consequent_id = rules.to_json()['consequents']
             consequent_id_todigit = (re.findall('\d+', consequent_id))
