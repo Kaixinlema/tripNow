@@ -435,7 +435,35 @@ box-shadow: none; background-color: rgba(153, 204, 255, 0.1);">
         overflow-y: scroll;
     }
 
-    .el-step__title{
-         font-size: 50px;
+    .el-carousel__item h3 {
+        color: #475669;
+        font-size: 14px;
+        opacity: 0.75;
+        line-height: 180px;
+        margin: 0;
+    }
+
+    .el-carousel__item:nth-child(2n) {
+        background-color: #99a9bf;
+    }
+
+    .el-carousel__item:nth-child(2n+1) {
+        background-color: #d3dce6;
+    }
+
+    .clearfix:before,
+    .clearfix:after {
+        display: table;
+        content: "";
+    }
+
+    .clearfix:after {
+        clear: both
+    }
+
+      .image {
+        width: 50%;
+        display: block;
+        margin: auto;
     }
 </style>

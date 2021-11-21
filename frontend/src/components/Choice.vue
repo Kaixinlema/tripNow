@@ -298,11 +298,6 @@ import Loading from '../components/loading'
         background-size: cover;
     }
 
-    .setCard {
-        width: 400px;
-        margin: 10px;
-    }
-
     .emptySet {
         text-align: center;
         font-size: 15px;
