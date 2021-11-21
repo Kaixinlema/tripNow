@@ -223,6 +223,7 @@ import Loading from '../components/loading'
                 axios.post(path,{
                     choices: this.choiceForm.finalChoice, 
                     type: this.type,
+                    number: this.number,
                 }).then((res)=>{
                     console.log(res.data.day);
                     this.isLoading = false;
@@ -234,10 +235,11 @@ import Loading from '../components/loading'
                             recommends: res.data.recommend,
                             days: res.data.day,
                             hotels: res.data.hotel,
+                            cost: res.data.cost,
                             numofday: res.data.numofday,
                             macau: this.macau,
                             type: this.type,
-                            cost: res.data.cost,
+                            number: this.number,
                         }
                     })
 
@@ -248,6 +250,7 @@ import Loading from '../components/loading'
         created() {
             this.labels = this.$route.params.labels;
             this.number = this.$route.params.number;
+            console.log(this.number)
             this.type = this.$route.params.type;
             let curr_user = sessionStorage.getItem('accessToken')
             if (curr_user) {

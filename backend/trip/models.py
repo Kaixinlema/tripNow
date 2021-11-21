@@ -1,8 +1,9 @@
-from flask_login.mixins import UserMixin
-from trip import app, db
-from sqlalchemy import Column, String
-from sqlalchemy.orm import sessionmaker
+# file to store all database models
 
+from flask_login.mixins import UserMixin
+from trip import db
+
+# model for hotels
 class Hotel(db.Model):
     __tablename__ = "hotel_recommend"
     hotel_id = db.Column(db.Integer,primary_key=True,nullable=False)
@@ -23,6 +24,7 @@ class Hotel(db.Model):
             'distance': self.distance,
         }
 
+# model for the association rule
 class Rule(db.Model):
     __tablename__ = "association_rule"
     rule_id = db.Column(db.Integer,primary_key=True,nullable=False)
@@ -32,22 +34,27 @@ class Rule(db.Model):
     confidence = db.Column(db.Float)
     lift = db.Column(db.Float)
 
+    # convert to the json type
     def to_json(self):
         return{
             'rule_id': self.rule_id,
             'antecents': self.antecents,
             'consequents': self.consequents
         }
+
+# model for the label
 class Label(db.Model):
     __tablename__ = "attraction_label"
     id = db.Column(db.Integer,primary_key=True,nullable=False)
     label_name = db.Column(db.String(10))
 
+    # convert to the json type
     def to_json(self):
         return {
             'id': self.id,
         }
 
+# model for the attractions
 class Attraction(db.Model):
     __tablename__ = "attraction_info"
     id = db.Column(db.Integer,primary_key=True,nullable=False)
@@ -58,6 +65,8 @@ class Attraction(db.Model):
     attraction_time = db.Column(db.Integer)
     attraction_cost = db.Column(db.Integer)
     attraction_detail = db.Column(db.Text)
+
+    # convert to the json type
     def to_json(self):
         return {
             'id': self.id,
@@ -69,6 +78,8 @@ class Attraction(db.Model):
             'attraction_cost': self.attraction_cost,
             'attraction_detail': self.attraction_detail,
         }
+
+    # convert some basic information to the json type
     def basic_to_json(self):
         return {
             'id': self.id,
@@ -76,6 +87,8 @@ class Attraction(db.Model):
             'attraction_label': self.attraction_label,
             'attraction_detail': self.attraction_detail
         }
+
+# model for users 
 class User(db.Model, UserMixin):
     __tablename__ = "user"
     id = db.Column(db.Integer,primary_key=True,nullable=False)
@@ -84,6 +97,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(30), nullable=False)
     password = db.Column(db.String(20), nullable=False)
 
+    # convert to the json type
     def to_json(self):
         return {
             'id': self.id,
@@ -93,7 +107,6 @@ class User(db.Model, UserMixin):
             'password': self.password,
 
         }
-
 class CalendarAdmin(UserMixin):
     """User class for flask-login"""
 
@@ -103,16 +116,5 @@ class CalendarAdmin(UserMixin):
         self.name = user.user_name
         self.password = user.password
         self.id = user.id
-
-# class UserSchema(ma.SQLAlchemyAutoSchema):
-#     class Meta:
-#         model = User
-#         load_instance = True
-
-#     id = fields.Number(dump_only=True)
-#     user_name = fields.String(required=True)
-#     phone = fields.String(required=True)
-#     email = fields.String(required=True)
-#     password = fields.String(required=True)
 
 

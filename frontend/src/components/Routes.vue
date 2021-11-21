@@ -285,6 +285,7 @@ box-shadow: none; background-color: rgba(153, 204, 255, 0.1);">
                 macau: false,
                 numofday: '',
                 cost: '',
+                number: '',
             }
         },
 
@@ -332,6 +333,7 @@ box-shadow: none; background-color: rgba(153, 204, 255, 0.1);">
                 axios.post(path, {
                     choices: new_recom,
                     type: this.type,
+                    number: this.number,
                 }).then((res) => {
                     console.log(res.data);
                     this.isLoading = false;
@@ -342,6 +344,7 @@ box-shadow: none; background-color: rgba(153, 204, 255, 0.1);">
                     this.numofday = res.data.numofday;
                     this.hotels = res.data.hotel;
                     this.points = [];
+                    this.cost = res.data.cost;
                     for (let i = 0; i < this.route.length; i++) {
                         this.points.push(new point(this.route[i]['attraction_lng'], this.route[i]['attraction_lat']));
                     }
@@ -359,16 +362,14 @@ box-shadow: none; background-color: rgba(153, 204, 255, 0.1);">
                 this.lat = lat;
             }
             this.route = this.$route.params.routes;
-            console.log(this.route);
             this.recommend = this.$route.params.recommends;
             this.day = this.$route.params.days;
-            console.log(this.day);0
             this.hotels = this.$route.params.hotels;
-            console.log(this.hotels);
             this.macau = this.$route.params.macau;
             this.numofday = this.$route.params.numofday;
             this.type = this.$route.params.type;
             this.cost = this.$route.params.cost;
+            this.number = this.$route.params.number;
             for (let k = 0; k< this.day.length; k++){
                 console.log(this.day[k]['day']);
                 console.log(this.day[k]['attraction']['id']);
