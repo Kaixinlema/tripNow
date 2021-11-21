@@ -4,7 +4,8 @@
             <Loading v-if="isLoading"></Loading>
         </transition>
         <el-container>
-            <el-header style=" line-height: 60px;">
+            <el-header style="line-height: 60px;  -webkit-box-shadow: none;
+box-shadow: none; background-color: rgba(153, 204, 255, 0.1);">
                 <el-row>
                     <el-col :span="12" style="text-align: left;">
                         <div class="headIcon" @click="$router.push('/')">
@@ -23,7 +24,7 @@
                     </el-col>
                 </el-row>
             </el-header>
-            <el-main>
+            <el-main style=" background-color: rgba(153, 204, 255, 0.1);">
                 <h3>推荐路线：</h3>
                 <el-divider></el-divider>
                 <el-row :gutter="10">
@@ -32,7 +33,7 @@
                     </el-col>
                     <!-- 这里新加了侧栏显示推荐简介 -->
                     <el-col :span="12">
-                        <el-card>
+                        <el-card style=" color: black;">
                             <h3>行程概要</h3>
                             <el-divider></el-divider>
                             <div class="showResult">
@@ -66,14 +67,15 @@
                 <el-row>
                     <el-col :span="6">
                         <el-steps direction="vertical" :active="day.length" style="margin-bottom: 50px;">
-                            <el-step v-for="(count, index) in this.numofday" :key="index" :title="'day '+count">
+                            <el-step v-for="(count, index) in this.numofday" :key="index" 
+                            :title="'Day '+count+ ':'"  style="font-weight: bold;">
                                 <template slot="description">
-                                    <el-card style="width: 800px; margin: 10px;">
+                                    <el-card style="width: 800px; margin: 10px; color: black; background-color:rgba(255, 204, 204, 0.15);">
                                         <p style="font-size: 18px; font-weight: bold;">
                                             <i class="el-icon-s-flag"></i>
                                             游玩景点：</p>
                                         <span v-for="poi in day" v-if="poi['day']==count">
-                                              <p style="font-weight: bold; font-size: 16px; color: orange;"> 
+                                              <p style="font-weight: bold; font-size: 16px; color: #FF9966;"> 
                                                    <i class="el-icon-place"></i> 
                                                   {{ poi['attraction']["attraction_name"] }} </p>
                                               <p style=" font-size: 14px;">   {{ poi['attraction']['attraction_detail']}} </p>
@@ -83,7 +85,7 @@
                                             推荐住宿酒店：
                                          </p>
                                         <span v-if="hotels[index]">
-                                            <p style="font-weight: bold; font-size: 16px; color: orange;"> 
+                                            <p style="font-weight: bold; font-size: 16px; color: #FF9966;"> 
                                                  <i class="el-icon-location-information"></i>
                                                 {{hotels[index]['name']}} 
                                             </p>
@@ -101,43 +103,49 @@
                 <!-- 这里开始有表单内容 -->
                 <h3>其他相关推荐</h3>
                 <el-divider></el-divider>
-                <el-form :model="resultForm" ref="resultForm">
-                    <div class="scrollbarTry">
-                        <!-- 改成div之后就可以缩起来了 -->
-                        <!-- 这里的结构和choice里面的完全复用了 -->
-                        <div class="scrollBar" :model="recommend" v-for="(idx) in this.recommend" :key="idx">
-                            <div style="margin: 10px;">
-                                <el-card :body-style="{ padding: '10px', margin: '10px', height: '400px'}">
-                                    <el-scrollbar>
-                                        <el-carousel height="180px" width="320px">
-                                            <el-carousel-item v-for=" (index) in imgGroup.slice((idx)*4, (idx+1)*4)"
-                                                :key="index">
-                                                <img :src="index" class="image" style="width:320px; height: 180px">
-                                            </el-carousel-item>
-                                        </el-carousel>
-                                        <div style="padding: 14px;">
-                                            <span style="font-size: 20px;">{{items[idx].name}}</span>
-                                            <!-- 点了之后就会存进resultform里面的addChoice数组 -->
-                                            <div style="float: right; display: inline;">
-                                                <el-checkbox label="我想去" :border="true" :model="items[idx].ifSelected"
-                                                    size="medium" @change="changeInfo(items[idx].index)">
-                                                </el-checkbox>
+                <div v-if="this.recommend.length==0">
+                    <p>暂无更多推荐</p>
+                </div>
+                <div v-else>
+                    <el-form :model="resultForm" ref="resultForm">
+                        <div class="scrollbarTry">
+                            <!-- 改成div之后就可以缩起来了 -->
+                            <!-- 这里的结构和choice里面的完全复用了 -->
+                            <div class="scrollBar" :model="recommend" v-for="(idx) in this.recommend" :key="idx">
+                                <div style="margin: 10px;">
+                                    <el-card :body-style="{ padding: '10px', margin: '10px', height: '400px'}">
+                                        <el-scrollbar>
+                                            <el-carousel height="180px" width="320px">
+                                                <el-carousel-item v-for=" (index) in imgGroup.slice((idx)*4, (idx+1)*4)"
+                                                    :key="index">
+                                                    <img :src="index" class="image" style="width:320px; height: 180px">
+                                                </el-carousel-item>
+                                            </el-carousel>
+                                            <div style="padding: 14px;">
+                                                <span style="font-size: 20px;">{{items[idx].name}}</span>
+                                                <!-- 点了之后就会存进resultform里面的addChoice数组 -->
+                                                <div style="float: right; display: inline;">
+                                                    <el-checkbox label="我想去" :border="true" :model="items[idx].ifSelected"
+                                                        size="medium" @change="changeInfo(items[idx].index)">
+                                                    </el-checkbox>
+                                                </div>
+                                                <el-divider></el-divider>
+                                                <span style="text-align: left; ">{{items[idx].message}}</span>
+                                                <div class="bottom clearfix">
+                                                </div>
                                             </div>
-                                            <el-divider></el-divider>
-                                            <span style="text-align: left; ">{{items[idx].message}}</span>
-                                            <div class="bottom clearfix">
-                                            </div>
-                                        </div>
-                                    </el-scrollbar>
-                                </el-card>
+                                        </el-scrollbar>
+                                    </el-card>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <el-form-item style="text-align: center; margin-top: 20px;">
-                        <el-button type="primary" @click="submitForm()">重新规划</el-button>
-                    </el-form-item>
-                </el-form>
+                        <el-form-item style="text-align: center; margin-top: 20px;">
+                            <el-button type="primary" @click="submitForm()">重新规划</el-button>
+                        </el-form-item>
+                    </el-form>
+                </div>
+
             </el-main>
         </el-container>
 
@@ -381,7 +389,7 @@
         background-color: #ffffff;
         color: #333;
         border-radius: 1px;
-        box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+        box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.788);
     }
 
     .el-main {
@@ -408,6 +416,9 @@
     .scrollBar {
         width: 33%;
         display: inline-block;
+        overflow: scroll;
+        overflow-x: hidden;
+        overflow-y: scroll;
     }
     
     .showResult {
@@ -421,5 +432,9 @@
     .el-card .el-scrollbar__wrap {
         overflow-x: hidden;
         overflow-y: scroll;
+    }
+
+    .el-step__title{
+         font-size: 50px;
     }
 </style>

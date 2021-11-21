@@ -1,7 +1,8 @@
 <template>
     <div>
         <el-container>
-            <el-header style=" line-height: 60px;">
+            <el-header  style="line-height: 60px;  -webkit-box-shadow: none;
+box-shadow: none; background-color: rgba(153, 204, 255, 0.15);">
                 <el-row>
                     <el-col :span="12" style="text-align: left;">
                         <div class="headIcon" @click="$router.push('/')">
@@ -20,7 +21,7 @@
                     </el-col>
                 </el-row>
             </el-header>
-            <el-main>
+            <el-main style=" background-color: rgba(153, 204, 255, 0.15);">
                 <div class="mainPage">
                     <div class="mainContent">
                         <el-button type="text" @click="toPlan" style="font-size: 25px; color:#ffffff;">

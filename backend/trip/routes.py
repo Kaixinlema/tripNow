@@ -1,10 +1,9 @@
 from trip.models import *
 from trip.controllers import get_routes, dijkstra
 from trip import app, db
-from trip.controllers import DatabaseOperations, User_query
-from flask import Flask, jsonify, request, render_template, make_response, session
-from flask_login import login_user
-import json, re
+from trip.controllers import User_query
+from flask import Flask, jsonify, request, session
+import re
 
 # route for home page
 @app.route('/')
@@ -105,25 +104,21 @@ def get_route():
                 'day': num,
                 'attraction': route_result[i]})
             time += route_result[i]["attraction_time"]
-        if time >= 6:
-            num+=1
-            time = 0
-        elif i!=len(route_result)-1 and i!=0:
-            if route_result[i]["attraction_time"] >6:
+        elif i!=len(route_result)-1:
+            if route_result[i]["attraction_time"] > 6:
                 num+=1
                 day.append({
                     'day': num,
                     'attraction': route_result[i]
                     })
-                num+=1
                 time=0
-            elif time+route_result[i]["attraction_time"]<=6:
+            elif time+route_result[i]["attraction_time"] <= 6:
                 day.append({
                     'day': num,
                     'attraction': route_result[i]
                 })
                 time+=route_result[i]["attraction_time"]
-            elif time+route_result[i]["attraction_time"]>6:
+            elif time+route_result[i]["attraction_time"] > 6:
                 num+=1
                 time=0
                 day.append({
@@ -163,15 +158,6 @@ def get_route():
                     'numofday': num,
                     'hotel': hotel,
                     'cost': price})
-
-
-@app.route('/users',methods=['GET', 'POST'])
-def get_users():
-    res = db.session.query(User).all()		
-    temp = []
-    for x in res:
-        temp.append(x.to_json())
-    return jsonify(data=temp)
 
 
 @app.route('/<path:fallback>')

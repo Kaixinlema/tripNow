@@ -7,7 +7,6 @@ import Router from 'vue-router'
 import Container from '@/components/Container'
 import Login from '../components/Login'
 import Register from '../components/Register'
-import Ping from '../components/Ping'
 import Plan from '../components/Plan'
 import Choice from '../components/Choice'
 import Routes from '../components/Routes'
@@ -39,11 +38,6 @@ export default new Router({
       meta: {
         title: 'System'
       }
-    },
-    {
-      path: '/ping',
-      name: 'Ping',
-      component: Ping,
     },
     {
       name: 'plan',
