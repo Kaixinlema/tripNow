@@ -419,7 +419,7 @@ box-shadow: none; background-color: rgba(153, 204, 255, 0.1);">
         display: inline-block;
         overflow: scroll;
         overflow-x: hidden;
-        overflow-y: scroll;
+        overflow-y: hidden;
     }
     
     .showResult {
@@ -461,7 +461,7 @@ box-shadow: none; background-color: rgba(153, 204, 255, 0.1);">
         clear: both
     }
 
-      .image {
+    .image {
         width: 50%;
         display: block;
         margin: auto;
