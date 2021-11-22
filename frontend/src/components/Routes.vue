@@ -318,42 +318,50 @@ box-shadow: none; background-color: rgba(153, 204, 255, 0.1);">
             },
 
             submitForm() {
-                function point(lng, lat) {
-                    this.lng = lng;
-                    this.lat = lat;
+                if (this.resultForm.addChoice.length==0){
+                    this.$message.error("您没有选择新的景点！")
                 }
-                if(this.items[13].ifSelected==true || 
-                   this.items[14].ifSelected==true ||
-                   this.items[15].ifSelected==true){
-                       this.macau = 1;
-                }
-                var new_recom = this.route.concat(this.resultForm.addChoice);
-                const path = 'http://127.0.0.1:5000/choice';
-                this.isLoading = true;
-                axios.post(path, {
-                    choices: new_recom,
-                    type: this.type,
-                    number: this.number,
-                }).then((res) => {
-                    console.log(res.data);
-                    this.isLoading = false;
-                    this.$message.success("为您推荐以下路线及酒店 ：）")
-                    this.route = res.data.route;
-                    this.recommend = res.data.recommend;
-                    this.day = res.data.day;
-                    this.numofday = res.data.numofday;
-                    this.hotels = res.data.hotel;
-                    this.points = [];
-                    this.cost = res.data.cost;
-                    for (let i = 0; i < this.route.length; i++) {
-                        this.points.push(new point(this.route[i]['attraction_lng'], this.route[i]['attraction_lat']));
+                else{
+                    function point(lng, lat) {
+                        this.lng = lng;
+                        this.lat = lat;
                     }
-                    this.$nextTick(() => {
-                        if (BaiduMap){
-                            this.$refs.Baidumap;
+                    if(this.items[13].ifSelected==true || 
+                    this.items[14].ifSelected==true ||
+                    this.items[15].ifSelected==true){
+                        this.macau = 1;
+                    }
+                    else{
+                        this.macau = 0;
+                    }
+                    var new_recom = this.route.concat(this.resultForm.addChoice);
+                    const path = 'http://127.0.0.1:5000/choice';
+                    this.isLoading = true;
+                    axios.post(path, {
+                        choices: new_recom,
+                        type: this.type,
+                        number: this.number,
+                    }).then((res) => {
+                        console.log(res.data);
+                        this.isLoading = false;
+                        this.$message.success("为您推荐以下路线及酒店 ：）")
+                        this.route = res.data.route;
+                        this.recommend = res.data.recommend;
+                        this.day = res.data.day;
+                        this.numofday = res.data.numofday;
+                        this.hotels = res.data.hotel;
+                        this.points = [];
+                        this.cost = res.data.cost;
+                        for (let i = 0; i < this.route.length; i++) {
+                            this.points.push(new point(this.route[i]['attraction_lng'], this.route[i]['attraction_lat']));
                         }
+                        this.$nextTick(() => {
+                            if (BaiduMap){
+                                this.$refs.Baidumap;
+                            }
+                        })
                     })
-                })
+                }
             }
         },
         created() {
