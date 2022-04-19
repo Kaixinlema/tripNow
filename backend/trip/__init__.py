@@ -9,7 +9,7 @@ from flask_login import LoginManager, login_manager
 
 
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='./static')
 
 # connect the database using sqlalchemy
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
@@ -21,7 +21,7 @@ db = SQLAlchemy(app)
 
 
 app.config.from_object(__name__)
-# 跨域请求
+# Request
 CORS(app, resources={r'/*': {'origins': '*'}})
 
 

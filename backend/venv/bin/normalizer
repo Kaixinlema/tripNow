@@ -1,4 +1,4 @@
-#!/Users/lidongyu/Desktop/tripNow/tripNow/backend/venv/bin/python
+#!/Users/lidongyu/Desktop/FYP/tripNow/tripNow/backend/venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys
