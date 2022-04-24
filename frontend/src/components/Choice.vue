@@ -212,6 +212,10 @@ import Loading from '../components/loading'
                 console.log(this.choiceForm.finalChoice);
             },
             submitForm(formName) {
+                if (this.choiceForm.finalChoice.length == 0){
+                    this.$message.error("请选择景点！");
+                }
+                else{
                 const path = 'http://127.0.0.1:5000/choice';
                 let formData = new FormData;
                 formData.append("choice", this.choiceForm.finalChoice);
@@ -244,7 +248,7 @@ import Loading from '../components/loading'
                     })
 
                 })
-
+                }
             },
         },
         created() {
